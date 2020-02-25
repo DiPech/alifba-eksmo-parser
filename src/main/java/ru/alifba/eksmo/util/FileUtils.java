@@ -18,4 +18,8 @@ public class FileUtils {
         });
     }
 
+    public static void writeToFile(Path path, String content) {
+        throwingRunnable(() -> Files.write(path, content.getBytes()));
+    }
+
 }
