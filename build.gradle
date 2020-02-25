@@ -1,0 +1,44 @@
+plugins {
+    id "org.springframework.boot" version "2.2.0.RELEASE"
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "java"
+}
+
+group = "ru.alifba"
+version = file("project.version").getText()
+sourceCompatibility = "1.8"
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    jar.archiveName = "alifba-eksmo-parser.jar"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter"
+    compileOnly "org.projectlombok:lombok:1.18.10"
+    annotationProcessor "org.projectlombok:lombok:1.18.10"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.10.2"
+    implementation "org.apache.commons:commons-lang3:3.0"
+}
+
+bootRun {
+    if (project.hasProperty('args')) {
+        args project.args.split(',')
+    }
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "ru.alifba.eksmo.Application"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
