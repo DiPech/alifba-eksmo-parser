@@ -11,6 +11,6 @@ public class Config {
 
     private final Path inputDir;
     private final Path outputDir;
-    private final Integer productsPerXml;
+    private final Integer itemsPerXml;
 
 }

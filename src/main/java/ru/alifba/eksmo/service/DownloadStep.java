@@ -25,8 +25,9 @@ import static ru.alifba.eksmo.util.FileUtils.writeToFile;
 @Qualifier("download")
 public class DownloadStep implements Step {
 
+    private static final String API_KEY = "2f3968e97de861abdb3ca5ba048e6c43";
     private static final String API_URL = "https://api.eksmo.ru/v2";
-    private static final String COMMON_URL = API_URL + "?action=products&key=2f3968e97de861abdb3ca5ba048e6c43";
+    private static final String COMMON_URL = API_URL + "?key=" + API_KEY;
     private static final CloseableHttpClient HTTP_CLIENT = HttpClients.createDefault();
 
     private Config config;
@@ -34,35 +35,44 @@ public class DownloadStep implements Step {
     public void execute(Config config) {
         this.config = config;
         FileUtils.cleanDir(config.getInputDir());
-        log.info("Detect how much products to download");
-        int productsCount = getProductsCount();
-        log.info("Products count: " + productsCount);
-        int pagesCount = getPagesCount(productsCount);
+        log.info("Downloading categories");
+        downloadXmls("category", "sbjct_full");
+        log.info("Downloading products");
+        downloadXmls("product", "products");
+    }
+
+    private void downloadXmls(String dirName, String action) {
+        log.info("Detect how much XMLs to download");
+        int itemsCount = getItemsCount(action);
+        log.info("Items count: " + itemsCount);
+        int pagesCount = getPagesCount(itemsCount);
         log.info("Pages count: " + pagesCount);
         log.info("Start downloading XMLs");
+        Path xmlDirPath = config.getInputDir().resolve(dirName);
         for (int page = 1; page <= pagesCount; page++) {
+            FileUtils.ensureDirExists(xmlDirPath);
             log.info("Processing page [ " + page + " / " + pagesCount + " ]");
-            Path xmlPath = config.getInputDir().resolve(page + ".xml");
-            writeToFile(xmlPath, getContent(page, config.getProductsPerXml()));
+            Path xmlFilePath = xmlDirPath.resolve(dirName + "-" + page + ".xml");
+            writeToFile(xmlFilePath, getContent(action, page, config.getItemsPerXml()));
         }
         log.info("Finish downloading XMLs");
     }
 
-    private int getPagesCount(int productsCount) {
-        return (int) Math.ceil((productsCount * 1.0) / config.getProductsPerXml());
+    private int getPagesCount(int itemsCount) {
+        return (int) Math.ceil((itemsCount * 1.0) / config.getItemsPerXml());
     }
 
-    private int getProductsCount() {
+    private int getItemsCount(String action) {
         Pattern pattern = Pattern.compile("<items>(\\d+)</items>", Pattern.MULTILINE);
-        Matcher matcher = pattern.matcher(getContent(1, 1));
+        Matcher matcher = pattern.matcher(getContent(action, 1, 1));
         if (!matcher.find()) {
             throw new RuntimeException("Can't find items count");
         }
         return Integer.parseInt(matcher.group(1));
     }
 
-    private String getContent(int page, int itemsPerPage) {
-        HttpGet request = new HttpGet(getUrl(page, itemsPerPage));
+    private String getContent(String action, int page, int itemsPerPage) {
+        HttpGet request = new HttpGet(getUrl(action, page, itemsPerPage));
         request.setHeader("Content-Type", "text/html; charset=UTF-8");
         request.setHeader("Accept-Language", "en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7");
         return ThrowingSupplier.throwingSupplier(() -> {
@@ -73,8 +83,8 @@ public class DownloadStep implements Step {
         });
     }
 
-    private String getUrl(int page, int itemsPerPage) {
-        return COMMON_URL + "&page=" + page + "&ItemsPerPage=" + itemsPerPage;
+    private String getUrl(String action, int page, int itemsPerPage) {
+        return COMMON_URL + "&page=" + page + "&ItemsPerPage=" + itemsPerPage + "&action=" + action;
     }
 
 }

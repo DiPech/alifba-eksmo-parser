@@ -22,4 +22,7 @@ public class FileUtils {
         throwingRunnable(() -> Files.write(path, content.getBytes()));
     }
 
+    public static void ensureDirExists(Path dir) {
+        throwingRunnable(() -> Files.createDirectories(dir));
+    }
 }
