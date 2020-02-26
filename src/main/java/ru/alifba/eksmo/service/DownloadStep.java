@@ -25,12 +25,14 @@ import static ru.alifba.eksmo.util.FileUtils.writeToFile;
 @Qualifier("download")
 public class DownloadStep implements Step {
 
-    private static final Integer ITEMS_PER_PAGE = 100;
     private static final String API_URL = "https://api.eksmo.ru/v2";
     private static final String COMMON_URL = API_URL + "?action=products&key=2f3968e97de861abdb3ca5ba048e6c43";
     private static final CloseableHttpClient HTTP_CLIENT = HttpClients.createDefault();
 
+    private Config config;
+
     public void execute(Config config) {
+        this.config = config;
         FileUtils.cleanDir(config.getInputDir());
         log.info("Detect how much products to download");
         int productsCount = getProductsCount();
@@ -41,13 +43,13 @@ public class DownloadStep implements Step {
         for (int page = 1; page <= pagesCount; page++) {
             log.info("Processing page [ " + page + " / " + pagesCount + " ]");
             Path xmlPath = config.getInputDir().resolve(page + ".xml");
-            writeToFile(xmlPath, getContent(page, ITEMS_PER_PAGE));
+            writeToFile(xmlPath, getContent(page, config.getProductsPerXml()));
         }
         log.info("Finish downloading XMLs");
     }
 
     private int getPagesCount(int productsCount) {
-        return (int) Math.ceil((productsCount * 1.0) / ITEMS_PER_PAGE);
+        return (int) Math.ceil((productsCount * 1.0) / config.getProductsPerXml());
     }
 
     private int getProductsCount() {

@@ -3,7 +3,7 @@
 ## How to run
 
 ### Step 1: Download XMLs
-`./gradlew bootRun -Pargs="--step=download"`
+`./gradlew bootRun -Pargs="--step=download,--count=50"`
 
 ### Step 2: Calculate statistics
 `./gradlew bootRun -Pargs="--step=statistics"`

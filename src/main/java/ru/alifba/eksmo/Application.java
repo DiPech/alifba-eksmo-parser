@@ -13,6 +13,7 @@ import ru.alifba.eksmo.service.Step;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import static java.lang.System.exit;
 
@@ -47,14 +48,17 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) {
         String step = env.getProperty("step");
-        assert step != null;
+        Objects.requireNonNull(step, "step cannot be null");
+        String ppxStr = env.getProperty("count");
+        Integer productsPerXml = ppxStr != null ? Integer.parseInt(ppxStr) : null;
         Path projectDir = Paths.get(System.getProperty("user.dir"));
         Path inputDir = projectDir.resolve("input");
         Path outputDir = projectDir.resolve("output");
-        Config config = new Config(inputDir, outputDir);
+        Config config = new Config(inputDir, outputDir, productsPerXml);
         switch (step) {
             case "download":
                 log.info("Step: Download files");
+                Objects.requireNonNull(productsPerXml, "productsPerXml cannot be null");
                 downloadStep.execute(config);
                 break;
             case "statistics":
