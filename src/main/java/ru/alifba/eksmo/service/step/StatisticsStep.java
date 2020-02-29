@@ -7,7 +7,7 @@ import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Config;
 import ru.alifba.eksmo.service.CatalogHelper;
-import ru.alifba.eksmo.service.CatalogParser;
+import ru.alifba.eksmo.service.parser.CatalogParser;
 
 import java.util.List;
 

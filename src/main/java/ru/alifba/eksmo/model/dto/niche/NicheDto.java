@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto.subject;
+package ru.alifba.eksmo.model.dto.niche;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectDto extends Dto {
+public class NicheDto extends Dto {
 
     @XmlElement(name = "parent_guid")
     private String parentGuid;

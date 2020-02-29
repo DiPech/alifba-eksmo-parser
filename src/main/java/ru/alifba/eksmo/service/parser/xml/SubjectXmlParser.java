@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.parser.xml;
 
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.dto.subject.SubjectDto;
@@ -6,7 +6,7 @@ import ru.alifba.eksmo.model.dto.subject.SubjectXml;
 import ru.alifba.eksmo.model.dto.subject.SubjectsDto;
 
 @Service
-public class SubjectsXmlDirParser extends XmlDirParser<SubjectXml> {
+public class SubjectXmlParser extends XmlParser<SubjectXml> {
 
     @Override
     protected Class[] xmlClasses() {

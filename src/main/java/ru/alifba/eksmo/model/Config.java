@@ -17,6 +17,10 @@ public class Config {
         return inputDir.resolve("subject");
     }
 
+    public Path getNicheXmlsPath() {
+        return inputDir.resolve("niche");
+    }
+
     public Path getProductXmlsPath() {
         return inputDir.resolve("product");
     }

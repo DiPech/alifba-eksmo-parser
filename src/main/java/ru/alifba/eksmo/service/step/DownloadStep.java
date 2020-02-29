@@ -37,6 +37,8 @@ public class DownloadStep implements Step {
         FileUtils.cleanDir(config.getInputDir());
         log.info("Downloading categories");
         downloadXmls(config.getSubjectXmlsPath(), "sbjct_full");
+        log.info("Downloading niches");
+        downloadXmls(config.getNicheXmlsPath(), "niche_full");
         log.info("Downloading products");
         downloadXmls(config.getProductXmlsPath(), "products");
     }

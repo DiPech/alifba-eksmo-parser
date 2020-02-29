@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.parser.xml;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import static ru.alifba.eksmo.util.ThrowingRunnable.throwingRunnable;
 
 @Service
-public abstract class XmlDirParser<XML> {
+public abstract class XmlParser<XML> {
 
     @SuppressWarnings("unchecked")
     public List<XML> parse(Path dir) {

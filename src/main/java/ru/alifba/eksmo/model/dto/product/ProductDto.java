@@ -2,6 +2,7 @@ package ru.alifba.eksmo.model.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.alifba.eksmo.model.dto.Dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,16 +11,16 @@ import javax.xml.bind.annotation.XmlElement;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductDto {
+public class ProductDto extends Dto {
 
     @XmlElement(name = "name")
     private String name;
 
-    @XmlElement(name = "guid")
-    private String guid;
-
     @XmlElement(name = "sbjct")
-    private SubjectDto sbjct;
+    private ReferenceDto sbjct;
+
+    @XmlElement(name = "niche")
+    private ReferenceDto niche;
 
     @XmlElement(name = "isbnn")
     private String isbnn;

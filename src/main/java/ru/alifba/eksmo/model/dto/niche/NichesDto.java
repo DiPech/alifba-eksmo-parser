@@ -1,18 +1,19 @@
-package ru.alifba.eksmo.model.dto.product;
+package ru.alifba.eksmo.model.dto.niche;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import java.util.List;
 
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectDto {
+public class NichesDto {
 
-    @XmlAttribute(name = "guid")
-    private String guid;
+    @XmlElement(name = "niche")
+    private List<NicheDto> niches;
 
 }
