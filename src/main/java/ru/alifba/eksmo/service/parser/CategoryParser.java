@@ -49,9 +49,26 @@ public class CategoryParser {
         Map<String, Category> segmentMap = buildCategoryWithoutParentsMap(segmentXmls,
             this::getDtoListFromXml, this::getCategoryFromDto);
         Map<String, Category> categoryMap = CollectionUtils.combineMaps(subjectMap, nicheMap, segmentMap);
+        fixRootCategories(categoryMap);
         fillParentCategories(categoryMap);
         fillChildrenCategories(categoryMap);
         return categoryMap;
+    }
+
+    /*
+     * Sometimes there are presented GUIDs without real categories in the data. So drop them.
+     */
+    private void fixRootCategories(Map<String, Category> categoryMap) {
+        categoryMap.forEach((guid, category) -> {
+            String parentGuid = category.getParentGuid();
+            if (parentGuid == null || parentGuid.length() == 0) {
+                return;
+            }
+            if (!categoryMap.containsKey(parentGuid)) {
+                category.setParentGuid(null);
+                category.setParent(null);
+            }
+        });
     }
 
     private void fillParentCategories(Map<String, Category> categoryMap) {
@@ -64,13 +81,7 @@ public class CategoryParser {
 
     private void fillChildrenCategories(Map<String, Category> categoryMap) {
         Map<String, List<Category>> parentChildren = buildParentChildrenRelations(categoryMap);
-//        parentChildren.forEach((guid, list) -> categoryMap.get(guid).setChildren(list));
-        parentChildren.forEach((guid, list) -> {
-            if (!categoryMap.containsKey(guid)) {
-                throw new RuntimeException("Not found item with GUID " + guid);
-            }
-            categoryMap.get(guid).setChildren(list);
-        });
+        parentChildren.forEach((guid, list) -> categoryMap.get(guid).setChildren(list));
     }
 
     private <XML, DTO extends GuidIdentifiable> Map<String, Category> buildCategoryWithoutParentsMap(

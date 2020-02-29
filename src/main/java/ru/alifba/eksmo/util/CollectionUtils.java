@@ -24,6 +24,7 @@ public class CollectionUtils {
         Map<String, T> map) {
         Map<String, List<T>> parentChildren = new HashMap<>();
         map.values().forEach(item -> {
+            parentChildren.putIfAbsent(item.getGuid(), new ArrayList<>());
             String parentGuid = item.getParentGuid();
             if (parentGuid == null || parentGuid.length() == 0) {
                 parentChildren.put(item.getGuid(), new ArrayList<>());

@@ -1,21 +1,24 @@
 package ru.alifba.eksmo.model;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class Category implements TreeGuidIdentifiable {
 
     private final String guid;
-    private final String parentGuid;
-    private final String name;
+    private String parentGuid;
+    private String name;
     private Category parent;
     private List<Category> children;
     private List<Product> products;
 
+    public Category(String guid, String parentGuid, String name) {
+        this.guid = guid;
+        this.parentGuid = parentGuid;
+        this.name = name;
+    }
 }
