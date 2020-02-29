@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.service.Step;
+import ru.alifba.eksmo.service.step.Step;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

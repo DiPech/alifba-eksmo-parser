@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.step;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -36,23 +36,22 @@ public class DownloadStep implements Step {
         this.config = config;
         FileUtils.cleanDir(config.getInputDir());
         log.info("Downloading categories");
-        downloadXmls("category", "sbjct_full");
+        downloadXmls(config.getSubjectXmlsPath(), "sbjct_full");
         log.info("Downloading products");
-        downloadXmls("product", "products");
+        downloadXmls(config.getProductXmlsPath(), "products");
     }
 
-    private void downloadXmls(String dirName, String action) {
+    private void downloadXmls(Path xmlPath, String action) {
         log.info("Detect how much XMLs to download");
         int itemsCount = getItemsCount(action);
         log.info("Items count: " + itemsCount);
         int pagesCount = getPagesCount(itemsCount);
         log.info("Pages count: " + pagesCount);
         log.info("Start downloading XMLs");
-        Path xmlDirPath = config.getInputDir().resolve(dirName);
+        FileUtils.ensureDirExists(xmlPath);
         for (int page = 1; page <= pagesCount; page++) {
-            FileUtils.ensureDirExists(xmlDirPath);
             log.info("Processing page [ " + page + " / " + pagesCount + " ]");
-            Path xmlFilePath = xmlDirPath.resolve(dirName + "-" + page + ".xml");
+            Path xmlFilePath = xmlPath.resolve(page + ".xml");
             writeToFile(xmlFilePath, getContent(action, page, config.getItemsPerXml()));
         }
         log.info("Finish downloading XMLs");

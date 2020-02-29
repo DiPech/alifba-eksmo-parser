@@ -13,4 +13,12 @@ public class Config {
     private final Path outputDir;
     private final Integer itemsPerXml;
 
+    public Path getSubjectXmlsPath() {
+        return inputDir.resolve("subject");
+    }
+
+    public Path getProductXmlsPath() {
+        return inputDir.resolve("product");
+    }
+
 }

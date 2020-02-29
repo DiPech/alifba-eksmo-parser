@@ -1,14 +1,16 @@
-package ru.alifba.eksmo.model.dto;
+package ru.alifba.eksmo.model.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Product {
+public class ProductDto {
 
     @XmlElement(name = "name")
     private String name;
@@ -16,17 +18,20 @@ public class Product {
     @XmlElement(name = "guid")
     private String guid;
 
+    @XmlElement(name = "sbjct")
+    private SubjectDto sbjct;
+
     @XmlElement(name = "isbnn")
-    private String isbn;
+    private String isbnn;
 
     @XmlElement(name = "brgew")
-    private String weight;
+    private String brgew;
 
     @XmlElement(name = "price")
     private Float price;
 
     @XmlElement(name = "qtypg")
-    private Float pagesCount;
+    private Integer qtypg;
 
     @XmlElement(name = "width")
     private Float width;
@@ -38,9 +43,9 @@ public class Product {
     private Float depth;
 
     @XmlElement(name = "source_picture")
-    private String img1;
+    private String sourcePicture;
 
     @XmlElement(name = "source_cover4")
-    private String img2;
+    private String sourceCover4;
 
 }
