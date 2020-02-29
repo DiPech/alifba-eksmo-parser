@@ -7,9 +7,12 @@ import ru.alifba.eksmo.model.Config;
 import ru.alifba.eksmo.model.GuidIdentifiable;
 import ru.alifba.eksmo.model.dto.niche.NicheDto;
 import ru.alifba.eksmo.model.dto.niche.NicheXml;
+import ru.alifba.eksmo.model.dto.segment.SegmentDto;
+import ru.alifba.eksmo.model.dto.segment.SegmentXml;
 import ru.alifba.eksmo.model.dto.subject.SubjectDto;
 import ru.alifba.eksmo.model.dto.subject.SubjectXml;
 import ru.alifba.eksmo.service.parser.xml.NicheXmlParser;
+import ru.alifba.eksmo.service.parser.xml.SegmentXmlParser;
 import ru.alifba.eksmo.service.parser.xml.SubjectXmlParser;
 import ru.alifba.eksmo.util.CollectionUtils;
 
@@ -24,21 +27,28 @@ import static ru.alifba.eksmo.util.CollectionUtils.buildParentChildrenRelations;
 @RequiredArgsConstructor
 public class CategoryParser {
 
-    private final SubjectXmlParser subjectsXmlDirParser;
-    private final NicheXmlParser nichesXmlDirParser;
+    private final SubjectXmlParser subjectXmlParser;
+    private final NicheXmlParser nicheXmlParser;
+    private final SegmentXmlParser segmentXmlParser;
 
     public Map<String, Category> parse(Config config) {
-        List<SubjectXml> subjectXmls = subjectsXmlDirParser.parse(config.getSubjectXmlsPath());
-        List<NicheXml> nicheXmls = nichesXmlDirParser.parse(config.getNicheXmlsPath());
-        return getCategoryMap(subjectXmls, nicheXmls);
+        List<SubjectXml> subjectXmls = subjectXmlParser.parse(config.getSubjectXmlsPath());
+        List<NicheXml> nicheXmls = nicheXmlParser.parse(config.getNicheXmlsPath());
+        List<SegmentXml> segmentXmls = segmentXmlParser.parse(config.getSegmentXmlsPath());
+        return getCategoryMap(subjectXmls, nicheXmls, segmentXmls);
     }
 
-    private Map<String, Category> getCategoryMap(List<SubjectXml> subjectXmls, List<NicheXml> nicheXmls) {
+    private Map<String, Category> getCategoryMap(
+        List<SubjectXml> subjectXmls,
+        List<NicheXml> nicheXmls,
+        List<SegmentXml> segmentXmls) {
         Map<String, Category> subjectMap = buildCategoryWithoutParentsMap(subjectXmls,
             this::getDtoListFromXml, this::getCategoryFromDto);
         Map<String, Category> nicheMap = buildCategoryWithoutParentsMap(nicheXmls,
             this::getDtoListFromXml, this::getCategoryFromDto);
-        Map<String, Category> categoryMap = CollectionUtils.combine(subjectMap, nicheMap);
+        Map<String, Category> segmentMap = buildCategoryWithoutParentsMap(segmentXmls,
+            this::getDtoListFromXml, this::getCategoryFromDto);
+        Map<String, Category> categoryMap = CollectionUtils.combineMaps(subjectMap, nicheMap, segmentMap);
         fillParentCategories(categoryMap);
         fillChildrenCategories(categoryMap);
         return categoryMap;
@@ -54,7 +64,13 @@ public class CategoryParser {
 
     private void fillChildrenCategories(Map<String, Category> categoryMap) {
         Map<String, List<Category>> parentChildren = buildParentChildrenRelations(categoryMap);
-        parentChildren.forEach((guid, list) -> categoryMap.get(guid).setChildren(list));
+//        parentChildren.forEach((guid, list) -> categoryMap.get(guid).setChildren(list));
+        parentChildren.forEach((guid, list) -> {
+            if (!categoryMap.containsKey(guid)) {
+                throw new RuntimeException("Not found item with GUID " + guid);
+            }
+            categoryMap.get(guid).setChildren(list);
+        });
     }
 
     private <XML, DTO extends GuidIdentifiable> Map<String, Category> buildCategoryWithoutParentsMap(
@@ -81,6 +97,14 @@ public class CategoryParser {
     }
 
     private Category getCategoryFromDto(NicheDto dto) {
+        return new Category(dto.getGuid(), dto.getParentGuid(), dto.getName());
+    }
+
+    private List<SegmentDto> getDtoListFromXml(SegmentXml xml) {
+        return xml.getSegments().getSegments();
+    }
+
+    private Category getCategoryFromDto(SegmentDto dto) {
         return new Category(dto.getGuid(), dto.getParentGuid(), dto.getName());
     }
 

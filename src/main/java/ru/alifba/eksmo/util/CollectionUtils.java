@@ -13,8 +13,9 @@ import java.util.stream.Stream;
 @UtilityClass
 public class CollectionUtils {
 
-    public static <K, V> Map<K, V> combine(Map<K, V> map1, Map<K, V> map2) {
-        return Stream.of(map1, map2)
+    @SafeVarargs
+    public static <K, V> Map<K, V> combineMaps(Map<K, V>... maps) {
+        return Stream.of(maps)
             .flatMap(map -> map.entrySet().stream())
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }

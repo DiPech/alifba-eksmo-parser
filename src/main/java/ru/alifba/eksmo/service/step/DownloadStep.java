@@ -35,10 +35,12 @@ public class DownloadStep implements Step {
     public void execute(Config config) {
         this.config = config;
         FileUtils.cleanDir(config.getInputDir());
-        log.info("Downloading categories");
-        downloadXmls(config.getSubjectXmlsPath(), "sbjct_full");
+        log.info("Downloading segments");
+        downloadXmls(config.getSegmentXmlsPath(), "sgmnt_full");
         log.info("Downloading niches");
         downloadXmls(config.getNicheXmlsPath(), "niche_full");
+        log.info("Downloading subjects");
+        downloadXmls(config.getSubjectXmlsPath(), "sbjct_full");
         log.info("Downloading products");
         downloadXmls(config.getProductXmlsPath(), "products");
     }

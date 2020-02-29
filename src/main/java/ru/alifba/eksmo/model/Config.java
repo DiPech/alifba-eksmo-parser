@@ -13,12 +13,16 @@ public class Config {
     private final Path outputDir;
     private final Integer itemsPerXml;
 
-    public Path getSubjectXmlsPath() {
-        return inputDir.resolve("subject");
+    public Path getSegmentXmlsPath() {
+        return inputDir.resolve("segment");
     }
 
     public Path getNicheXmlsPath() {
         return inputDir.resolve("niche");
+    }
+
+    public Path getSubjectXmlsPath() {
+        return inputDir.resolve("subject");
     }
 
     public Path getProductXmlsPath() {

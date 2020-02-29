@@ -22,6 +22,9 @@ public class ProductDto extends Dto {
     @XmlElement(name = "niche")
     private ReferenceDto niche;
 
+    @XmlElement(name = "sgmnt")
+    private ReferenceDto sgmnt;
+
     @XmlElement(name = "isbnn")
     private String isbnn;
 
