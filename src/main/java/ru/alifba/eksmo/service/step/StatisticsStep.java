@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.service.CatalogHelper;
-import ru.alifba.eksmo.service.parser.CatalogParser;
+import ru.alifba.eksmo.service.CatalogService;
 
 import java.util.List;
 
@@ -19,12 +18,11 @@ import static java.lang.System.out;
 @RequiredArgsConstructor
 public class StatisticsStep implements Step {
 
-    private final CatalogParser catalogParser;
-    private final CatalogHelper catalogHelper;
+    private final CatalogService catalogService;
 
     public void execute(Config config) {
-        Catalog catalog = catalogParser.parse(config);
-        List<Category> rootCategories = catalogHelper.getRootCategories(catalog);
+        Catalog catalog = catalogService.parse(config);
+        List<Category> rootCategories = catalogService.getRootCategories(catalog);
         out.println("--- [ CATEGORIES INFO ] ------------------------------");
         out.println();
         printData(rootCategories, 0);
@@ -33,8 +31,7 @@ public class StatisticsStep implements Step {
         out.println();
         out.println("Categories count: " + catalog.getCategories().size());
         out.println("Root categories count: " + rootCategories.size());
-        out.println("Total products count: " + catalog.getProducts().size());
-        out.println("Inside categories products count: " + calculateProductsCount(catalog));
+        out.println("Products count: " + catalog.getProducts().size());
         out.println();
     }
 
@@ -55,12 +52,6 @@ public class StatisticsStep implements Step {
 
     private String getPrefix(int level) {
         return StringUtils.repeat("|-- ", level);
-    }
-
-    private int calculateProductsCount(Catalog catalog) {
-        return catalog.getCategories().values().stream()
-            .map(category -> category.getProducts().size())
-            .reduce(0, Integer::sum);
     }
 
 }

@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static ru.alifba.eksmo.util.CollectionUtils.buildParentChildrenRelations;
-
 @Service
 @RequiredArgsConstructor
 public class CategoryParser {
@@ -50,8 +48,6 @@ public class CategoryParser {
             this::getDtoListFromXml, this::getCategoryFromDto);
         Map<String, Category> categoryMap = CollectionUtils.combineMaps(subjectMap, nicheMap, segmentMap);
         fixRootCategories(categoryMap);
-        fillParentCategories(categoryMap);
-        fillChildrenCategories(categoryMap);
         return categoryMap;
     }
 
@@ -69,19 +65,6 @@ public class CategoryParser {
                 category.setParent(null);
             }
         });
-    }
-
-    private void fillParentCategories(Map<String, Category> categoryMap) {
-        categoryMap.forEach((guid, category) -> {
-            if (categoryMap.containsKey(category.getParentGuid())) {
-                category.setParent(categoryMap.get(category.getParentGuid()));
-            }
-        });
-    }
-
-    private void fillChildrenCategories(Map<String, Category> categoryMap) {
-        Map<String, List<Category>> parentChildren = buildParentChildrenRelations(categoryMap);
-        categoryMap.forEach((guid, category) -> category.setChildren(parentChildren.get(guid)));
     }
 
     private <XML, DTO extends GuidIdentifiable> Map<String, Category> buildCategoryWithoutParentsMap(

@@ -51,10 +51,11 @@ public class Application implements CommandLineRunner {
         Objects.requireNonNull(step, "step cannot be null");
         String ppxStr = env.getProperty("count");
         Integer itemsPerXml = ppxStr != null ? Integer.parseInt(ppxStr) : null;
+        Boolean clean = Boolean.parseBoolean(env.getProperty("clean"));
         Path projectDir = Paths.get(System.getProperty("user.dir"));
         Path inputDir = projectDir.resolve("input");
         Path outputDir = projectDir.resolve("output");
-        Config config = new Config(inputDir, outputDir, itemsPerXml);
+        Config config = new Config(inputDir, outputDir, itemsPerXml, clean);
         switch (step) {
             case "download":
                 log.info("Step: Download files");

@@ -12,6 +12,7 @@ public class Config {
     private final Path inputDir;
     private final Path outputDir;
     private final Integer itemsPerXml;
+    private final Boolean isNeedToClean;
 
     public Path getSegmentXmlsPath() {
         return inputDir.resolve("segment");
