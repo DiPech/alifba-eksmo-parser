@@ -25,6 +25,10 @@ public class StatisticsStep implements Step {
     public void execute(Config config) {
         Catalog catalog = catalogParser.parse(config);
         List<Category> rootCategories = catalogHelper.getRootCategories(catalog);
+        out.println("--- [ CATEGORIES INFO ] ------------------------------");
+        out.println();
+        printData(rootCategories, 0);
+        out.println();
         out.println("--- [ COMMON INFO ] ------------------------------");
         out.println();
         out.println("Categories count: " + catalog.getCategories().size());
@@ -32,21 +36,17 @@ public class StatisticsStep implements Step {
         out.println("Total products count: " + catalog.getProducts().size());
         out.println("Inside categories products count: " + calculateProductsCount(catalog));
         out.println();
-        out.println("--- [ CATEGORIES INFO ] ------------------------------");
-        out.println();
-        printData(rootCategories, 0);
     }
 
     private void printData(List<Category> categories, int level) {
         categories.forEach(category -> {
             int childrenCount = category.getChildren().size();
             int productsCount = category.getProducts().size();
-            if (childrenCount == 0 && productsCount > 0) {
-                out.print(getPrefix(level));
-                out.print(category.getName());
-                out.print(" [ " + productsCount + " ]");
-                out.println();
-            }
+            out.print("[ " + category.getGuid() + " ] ");
+            out.print(getPrefix(level));
+            out.print(category.getName());
+            out.print(" ( " + productsCount + " )");
+            out.println();
             if (childrenCount > 0) {
                 printData(category.getChildren(), level + 1);
             }

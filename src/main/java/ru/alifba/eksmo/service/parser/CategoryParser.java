@@ -81,7 +81,7 @@ public class CategoryParser {
 
     private void fillChildrenCategories(Map<String, Category> categoryMap) {
         Map<String, List<Category>> parentChildren = buildParentChildrenRelations(categoryMap);
-        parentChildren.forEach((guid, list) -> categoryMap.get(guid).setChildren(list));
+        categoryMap.forEach((guid, category) -> category.setChildren(parentChildren.get(guid)));
     }
 
     private <XML, DTO extends GuidIdentifiable> Map<String, Category> buildCategoryWithoutParentsMap(

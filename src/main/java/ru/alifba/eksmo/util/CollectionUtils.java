@@ -24,13 +24,10 @@ public class CollectionUtils {
         Map<String, T> map) {
         Map<String, List<T>> parentChildren = new HashMap<>();
         map.values().forEach(item -> {
-            parentChildren.putIfAbsent(item.getGuid(), new ArrayList<>());
             String parentGuid = item.getParentGuid();
-            if (parentGuid == null || parentGuid.length() == 0) {
-                parentChildren.put(item.getGuid(), new ArrayList<>());
-                return;
-            }
-            List<T> children = parentChildren.getOrDefault(parentGuid, new ArrayList<>());
+            parentChildren.putIfAbsent(item.getGuid(), new ArrayList<>());
+            parentChildren.putIfAbsent(parentGuid, new ArrayList<>());
+            List<T> children = parentChildren.get(parentGuid);
             children.add(item);
             parentChildren.put(parentGuid, children);
         });
