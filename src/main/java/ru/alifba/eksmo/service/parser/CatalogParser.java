@@ -3,6 +3,9 @@ package ru.alifba.eksmo.service.parser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.*;
+import ru.alifba.eksmo.service.parser.xml.CategoryXmlParser;
+import ru.alifba.eksmo.service.parser.xml.ProductXmlParser;
+import ru.alifba.eksmo.service.parser.xml.PublisherXmlParser;
 
 import java.util.Map;
 
@@ -10,15 +13,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CatalogParser {
 
-    private final ProductParser productParser;
-    private final CategoryParser categoryParser;
-    private final PublisherParser publisherParser;
+    private final ProductXmlParser productXmlParser;
+    private final CategoryXmlParser categoryXmlParser;
+    private final PublisherXmlParser publisherXmlParser;
     private final CatalogBuilder catalogBuilder;
 
     public Catalog parse(Config config) {
-        Map<String, Category> categories = categoryParser.parse(config);
-        Map<String, Product> products = productParser.parse(config);
-        Map<String, Publisher> publishers = publisherParser.parse(config);
+        Map<String, Category> categories = categoryXmlParser.parse(config);
+        Map<String, Product> products = productXmlParser.parse(config);
+        Map<String, Publisher> publishers = publisherXmlParser.parse(config);
         return catalogBuilder.build(categories, products, publishers);
     }
 

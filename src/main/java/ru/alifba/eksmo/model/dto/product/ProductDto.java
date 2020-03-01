@@ -13,9 +13,6 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProductDto extends Dto {
 
-    @XmlElement(name = "name")
-    private String name;
-
     @XmlElement(name = "sbjct")
     private ReferenceDto sbjct;
 
