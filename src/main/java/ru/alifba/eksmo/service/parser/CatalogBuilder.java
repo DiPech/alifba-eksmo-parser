@@ -1,10 +1,7 @@
 package ru.alifba.eksmo.service.parser;
 
 import org.springframework.stereotype.Service;
-import ru.alifba.eksmo.model.Catalog;
-import ru.alifba.eksmo.model.Category;
-import ru.alifba.eksmo.model.Product;
-import ru.alifba.eksmo.model.Publisher;
+import ru.alifba.eksmo.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,9 +23,9 @@ public class CatalogBuilder {
         fillParentCategories(categories);
         fillChildrenCategories(categories);
         fillEntitiesWithManyToOne(products, Product::getCategoryGuid, categories, Category::setProducts);
-        fillProductsCategories(products, categories);
+        fillEntitiesWithOneToOne(products, Product::getCategoryGuid, Product::setCategory, categories, true);
         fillEntitiesWithManyToOne(products, Product::getPublisherGuid, publishers, Publisher::setProducts);
-        fillProductsPublishers(products, publishers);
+        fillEntitiesWithOneToOne(products, Product::getPublisherGuid, Product::setPublisher, publishers, false);
         return new Catalog(categories, products, publishers);
     }
 
@@ -52,37 +49,41 @@ public class CatalogBuilder {
         categoryMap.forEach((guid, category) -> category.setChildren(parentChildren.get(guid)));
     }
 
-    private <M,O> void fillEntitiesWithManyToOne(
-        Map<String, M> entitiesMany,
-        Function<M, String> entitiesManyGetter,
-        Map<String, O> entitiesOne,
-        BiConsumer<O, List<M>> entitiesOneSetter) {
-        entitiesOne.forEach((guid, entityOne) -> {
-            List<M> entitiesManyToOne = entitiesMany.values().stream()
-                .filter(product -> entitiesManyGetter.apply(product).equals(guid))
+    /**
+     * ManyToOne - Many instances of the current Entity refer to One instance of the referred Entity.
+     */
+    private <C, R> void fillEntitiesWithManyToOne(
+        Map<String, C> currentEntities,
+        Function<C, String> currentEntitiesGetter,
+        Map<String, R> referredEntities,
+        BiConsumer<R, List<C>> referredEntitiesSetter) {
+        referredEntities.forEach((guid, referredEntity) -> {
+            List<C> currentEntitiesList = currentEntities.values().stream()
+                .filter(product -> currentEntitiesGetter.apply(product).equals(guid))
                 .collect(Collectors.toList());
-            entitiesOneSetter.accept(entityOne, entitiesManyToOne);
+            referredEntitiesSetter.accept(referredEntity, currentEntitiesList);
         });
     }
 
-    private void fillProductsCategories(Map<String, Product> products, Map<String, Category> categories) {
-        products.values().forEach(product -> {
-            Optional<Category> categoryOptional = categories.values().stream()
-                .filter(category -> category.getGuid().equals(product.getCategoryGuid()))
+    /**
+     * OneToOne - One instance of the current Entity refers to One instance of the referred Entity.
+     */
+    private <C extends Entity, R> void fillEntitiesWithOneToOne(
+        Map<String, R> referredEntities,
+        Function<R, String> referredEntitiesGetter,
+        BiConsumer<R, C> referredEntitiesSetter,
+        Map<String, C> currentEntities,
+        boolean isStrongRelation) {
+        referredEntities.values().forEach(referredEntity -> {
+            String referredEntityGuid = referredEntitiesGetter.apply(referredEntity);
+            Optional<C> currentEntityOptional = currentEntities.values().stream()
+                .filter(category -> category.getGuid().equals(referredEntityGuid))
                 .findFirst();
-            if (!categoryOptional.isPresent()) {
-                throw new RuntimeException("Category with GUID [" + product.getCategoryGuid() + "] not found");
+            if (!currentEntityOptional.isPresent() && isStrongRelation) {
+                throw new RuntimeException("Entity with GUID [" + referredEntityGuid + "] not found");
             }
-            product.setCategory(categoryOptional.get());
-        });
-    }
-
-    private void fillProductsPublishers(Map<String, Product> products, Map<String, Publisher> publishers) {
-        products.values().forEach(product -> {
-            Optional<Publisher> publisherOptional = publishers.values().stream()
-                .filter(publisher -> publisher.getGuid().equals(product.getPublisherGuid()))
-                .findFirst();
-            publisherOptional.ifPresent(product::setPublisher);
+            currentEntityOptional.ifPresent(currentEntity ->
+                referredEntitiesSetter.accept(referredEntity, currentEntity));
         });
     }
 
