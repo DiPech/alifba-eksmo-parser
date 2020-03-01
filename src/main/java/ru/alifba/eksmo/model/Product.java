@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class Product extends Entity {
@@ -19,13 +21,14 @@ public class Product extends Entity {
     private final Integer pagesCount;
     private final String image;
     private final String image2;
+    private final LocalDate lastEditionDate;
     private Category category;
     private Publisher publisher;
 
     @Builder
     public Product(String guid, String categoryGuid, String publisherGuid, String name, Float price, String weight,
                    Float width, Float height, Float depth, Integer pagesCount, String image, String image2,
-                   Category category, Publisher publisher) {
+                   LocalDate lastEditionDate, Category category, Publisher publisher) {
         super(guid);
         this.categoryGuid = categoryGuid;
         this.publisherGuid = publisherGuid;
@@ -38,6 +41,7 @@ public class Product extends Entity {
         this.pagesCount = pagesCount;
         this.image = image;
         this.image2 = image2;
+        this.lastEditionDate = lastEditionDate;
         this.category = category;
         this.publisher = publisher;
     }

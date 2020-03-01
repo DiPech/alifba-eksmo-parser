@@ -48,6 +48,7 @@ public class ProductXmlParser extends AbstractXmlParser<ProductXml, ProductDto, 
             .image(dto.getSourcePicture())
             .image2(dto.getSourceCover4())
             .pagesCount(dto.getQtypg())
+            .lastEditionDate(dto.getLDateD())
             .build();
     }
 

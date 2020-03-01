@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Config;
+import ru.alifba.eksmo.model.Product;
 import ru.alifba.eksmo.service.CatalogService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -42,10 +44,24 @@ public class StatisticsStep implements Step {
 
     private void printPublishers(Catalog catalog) {
         catalog.getPublishers().values().forEach(publisher -> {
+            List<Product> products = publisher.getProducts();
             out.print("[" + publisher.getGuid() + "] ");
             out.print(publisher.getName() + " ");
-            out.println("( " + publisher.getProducts().size() + " )");
+            out.print("( ");
+            out.print("TOTAL: " + products.size() + "; ");
+            out.print(">2015: " + calcProductsStartFromYear(products, 2015) + "; ");
+            out.print(">2017: " + calcProductsStartFromYear(products, 2017) + "; ");
+            out.print(">2019: " + calcProductsStartFromYear(products, 2019) + "; ");
+            out.print(" )");
+            out.println();
         });
+    }
+
+    private int calcProductsStartFromYear(List<Product> products, int year) {
+        return (int) products.stream()
+            .filter(p -> p.getLastEditionDate() != null)
+            .filter(p -> p.getLastEditionDate().isAfter(LocalDate.of(year, 1, 1)))
+            .count();
     }
 
     private void printCategories(List<Category> categories, int level) {
