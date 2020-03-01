@@ -16,13 +16,13 @@ public class CatalogParser {
     private final ProductXmlParser productXmlParser;
     private final CategoryXmlParser categoryXmlParser;
     private final PublisherXmlParser publisherXmlParser;
-    private final CatalogBuilder catalogBuilder;
+    private final CatalogComposer catalogComposer;
 
     public Catalog parse(Config config) {
         Map<String, Category> categories = categoryXmlParser.parse(config);
         Map<String, Product> products = productXmlParser.parse(config);
         Map<String, Publisher> publishers = publisherXmlParser.parse(config);
-        return catalogBuilder.build(categories, products, publishers);
+        return catalogComposer.compose(categories, products, publishers);
     }
 
 }

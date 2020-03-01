@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 import static ru.alifba.eksmo.util.CollectionUtils.buildParentChildrenRelations;
 
 @Service
-public class CatalogBuilder {
+public class CatalogComposer {
 
-    public Catalog build(
+    public Catalog compose(
         Map<String, Category> categories,
         Map<String, Product> products,
         Map<String, Publisher> publishers) {

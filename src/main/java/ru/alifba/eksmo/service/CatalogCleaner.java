@@ -6,7 +6,7 @@ import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Product;
 import ru.alifba.eksmo.model.Publisher;
-import ru.alifba.eksmo.service.parser.CatalogBuilder;
+import ru.alifba.eksmo.service.parser.CatalogComposer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CatalogCleaner {
 
-    private final CatalogBuilder catalogBuilder;
+    private final CatalogComposer catalogComposer;
 
     public Catalog clean(Catalog catalog) {
         Map<String, Category> categories = new HashMap<>();
@@ -28,7 +28,7 @@ public class CatalogCleaner {
             category.getProducts().forEach(product -> products.putIfAbsent(product.getGuid(), product));
         });
         products.values().forEach(prod -> publishers.putIfAbsent(prod.getPublisher().getGuid(), prod.getPublisher()));
-        return catalogBuilder.build(categories, products, publishers);
+        return catalogComposer.compose(categories, products, publishers);
     }
 
     private List<Category> getLeafCategoriesWithProducts(Catalog catalog) {
