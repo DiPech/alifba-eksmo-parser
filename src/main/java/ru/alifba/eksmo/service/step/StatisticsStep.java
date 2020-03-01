@@ -42,13 +42,34 @@ public class StatisticsStep implements Step {
         out.println();
     }
 
+    private void printCategories(List<Category> categories, int level) {
+        categories.forEach(category -> {
+            int childrenCount = category.getChildren().size();
+            int productsCount = category.getProducts().size();
+            if (productsCount > 0) {
+                out.print("[ " + category.getGuid() + " ] ");
+                out.print(getPrefix(level));
+                out.print(category.getName());
+                out.print(" ( " + productsCount + " )");
+                out.println();
+            }
+            if (childrenCount > 0) {
+                printCategories(category.getChildren(), level + 1);
+            }
+        });
+    }
+
     private void printPublishers(Catalog catalog) {
         catalog.getPublishers().values().forEach(publisher -> {
             List<Product> products = publisher.getProducts();
+            int productsCount = products.size();
+            if (productsCount == 0) {
+                return;
+            }
             out.print("[" + publisher.getGuid() + "] ");
             out.print(publisher.getName() + " ");
             out.print("( ");
-            out.print("TOTAL: " + products.size() + "; ");
+            out.print("TOTAL: " + productsCount + "; ");
             out.print(">2015: " + calcProductsStartFromYear(products, 2015) + "; ");
             out.print(">2017: " + calcProductsStartFromYear(products, 2017) + "; ");
             out.print(">2019: " + calcProductsStartFromYear(products, 2019) + "; ");
@@ -62,21 +83,6 @@ public class StatisticsStep implements Step {
             .filter(p -> p.getLastEditionDate() != null)
             .filter(p -> p.getLastEditionDate().isAfter(LocalDate.of(year, 1, 1)))
             .count();
-    }
-
-    private void printCategories(List<Category> categories, int level) {
-        categories.forEach(category -> {
-            int childrenCount = category.getChildren().size();
-            int productsCount = category.getProducts().size();
-            out.print("[ " + category.getGuid() + " ] ");
-            out.print(getPrefix(level));
-            out.print(category.getName());
-            out.print(" ( " + productsCount + " )");
-            out.println();
-            if (childrenCount > 0) {
-                printCategories(category.getChildren(), level + 1);
-            }
-        });
     }
 
     private String getPrefix(int level) {
