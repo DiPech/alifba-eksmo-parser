@@ -13,5 +13,6 @@ public class Catalog {
 
     private final Map<String, Category> categories;
     private final Map<String, Product> products;
+    private final Map<String, Publisher> publishers;
 
 }

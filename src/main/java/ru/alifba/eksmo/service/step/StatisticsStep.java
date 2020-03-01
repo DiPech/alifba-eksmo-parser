@@ -25,17 +25,30 @@ public class StatisticsStep implements Step {
         List<Category> rootCategories = catalogService.getRootCategories(catalog);
         out.println("--- [ CATEGORIES INFO ] ------------------------------");
         out.println();
-        printData(rootCategories, 0);
+        printCategories(rootCategories, 0);
+        out.println();
+        out.println("--- [ PUBLISHERS INFO ] ------------------------------");
+        out.println();
+        printPublishers(catalog);
         out.println();
         out.println("--- [ COMMON INFO ] ------------------------------");
         out.println();
         out.println("Categories count: " + catalog.getCategories().size());
         out.println("Root categories count: " + rootCategories.size());
         out.println("Products count: " + catalog.getProducts().size());
+        out.println("Publishers count: " + catalog.getPublishers().size());
         out.println();
     }
 
-    private void printData(List<Category> categories, int level) {
+    private void printPublishers(Catalog catalog) {
+        catalog.getPublishers().values().forEach(publisher -> {
+            out.print("[" + publisher.getGuid() + "] ");
+            out.print(publisher.getName() + " ");
+            out.println("( " + publisher.getProducts().size() + " )");
+        });
+    }
+
+    private void printCategories(List<Category> categories, int level) {
         categories.forEach(category -> {
             int childrenCount = category.getChildren().size();
             int productsCount = category.getProducts().size();
@@ -45,7 +58,7 @@ public class StatisticsStep implements Step {
             out.print(" ( " + productsCount + " )");
             out.println();
             if (childrenCount > 0) {
-                printData(category.getChildren(), level + 1);
+                printCategories(category.getChildren(), level + 1);
             }
         });
     }

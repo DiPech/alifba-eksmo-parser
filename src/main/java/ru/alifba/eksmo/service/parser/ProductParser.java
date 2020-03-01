@@ -35,6 +35,7 @@ public class ProductParser {
         return Product.builder()
             .guid(dto.getGuid())
             .categoryGuid(dto.getSbjct().getGuid())
+            .publisherGuid(dto.getPubli().getGuid())
             .name(dto.getName())
             .price(dto.getPrice())
             .weight(dto.getBrgew())

@@ -26,6 +26,10 @@ public class Config {
         return inputDir.resolve("subject");
     }
 
+    public Path getPublisherXmlsPath() {
+        return inputDir.resolve("publisher");
+    }
+
     public Path getProductXmlsPath() {
         return inputDir.resolve("product");
     }

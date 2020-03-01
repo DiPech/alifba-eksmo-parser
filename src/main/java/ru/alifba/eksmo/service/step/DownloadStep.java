@@ -41,6 +41,8 @@ public class DownloadStep implements Step {
         downloadXmls(config.getNicheXmlsPath(), "niche_full");
         log.info("Downloading subjects");
         downloadXmls(config.getSubjectXmlsPath(), "sbjct_full");
+        log.info("Downloading publishers");
+        downloadXmls(config.getPublisherXmlsPath(), "publi_full");
         log.info("Downloading products");
         downloadXmls(config.getProductXmlsPath(), "products");
     }

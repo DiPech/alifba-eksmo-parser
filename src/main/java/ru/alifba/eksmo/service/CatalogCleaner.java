@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Product;
+import ru.alifba.eksmo.model.Publisher;
 import ru.alifba.eksmo.service.parser.CatalogBuilder;
 
 import java.util.HashMap;
@@ -21,11 +22,13 @@ public class CatalogCleaner {
     public Catalog clean(Catalog catalog) {
         Map<String, Category> categories = new HashMap<>();
         Map<String, Product> products = new HashMap<>();
+        Map<String, Publisher> publishers = new HashMap<>();
         getLeafCategoriesWithProducts(catalog).forEach(category -> {
             addCategoryWithParents(categories, category);
             category.getProducts().forEach(product -> products.putIfAbsent(product.getGuid(), product));
         });
-        return catalogBuilder.build(categories, products);
+        products.values().forEach(prod -> publishers.putIfAbsent(prod.getPublisher().getGuid(), prod.getPublisher()));
+        return catalogBuilder.build(categories, products, publishers);
     }
 
     private List<Category> getLeafCategoriesWithProducts(Catalog catalog) {

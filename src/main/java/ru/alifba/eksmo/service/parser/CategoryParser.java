@@ -67,6 +67,7 @@ public class CategoryParser {
         });
     }
 
+    // @todo generify this method to be used in other similar places
     private <XML, DTO extends GuidIdentifiable> Map<String, Category> buildCategoryWithoutParentsMap(
         List<XML> xmls,
         Function<XML, List<DTO>> getDtoList,

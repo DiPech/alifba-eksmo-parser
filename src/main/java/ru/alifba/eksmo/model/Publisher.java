@@ -7,15 +7,13 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Category extends TreeEntity {
+public class Publisher extends Entity {
 
     private String name;
-    private Category parent;
-    private List<Category> children;
     private List<Product> products;
 
-    public Category(String guid, String parentGuid, String name) {
-        super(guid, parentGuid);
+    public Publisher(String guid, String name) {
+        super(guid);
         this.name = name;
     }
 }
