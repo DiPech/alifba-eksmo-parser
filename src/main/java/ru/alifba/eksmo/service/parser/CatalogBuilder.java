@@ -9,6 +9,8 @@ import ru.alifba.eksmo.model.Publisher;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static ru.alifba.eksmo.util.CollectionUtils.buildParentChildrenRelations;
@@ -23,9 +25,9 @@ public class CatalogBuilder {
         products = removeProductsWithBadCategories(products, categories);
         fillParentCategories(categories);
         fillChildrenCategories(categories);
-        fillCategoriesWithProducts(categories, products);
+        fillEntitiesWithManyToOne(products, Product::getCategoryGuid, categories, Category::setProducts);
         fillProductsCategories(products, categories);
-        fillPublishersWithProducts(publishers, products);
+        fillEntitiesWithManyToOne(products, Product::getPublisherGuid, publishers, Publisher::setProducts);
         fillProductsPublishers(products, publishers);
         return new Catalog(categories, products, publishers);
     }
@@ -50,13 +52,16 @@ public class CatalogBuilder {
         categoryMap.forEach((guid, category) -> category.setChildren(parentChildren.get(guid)));
     }
 
-    // @todo generify duplicated code below
-    private void fillCategoriesWithProducts(Map<String, Category> categoryMap, Map<String, Product> productMap) {
-        categoryMap.forEach((guid, category) -> {
-            List<Product> categoryProducts = productMap.values().stream()
-                .filter(product -> product.getCategoryGuid().equals(guid))
+    private <M,O> void fillEntitiesWithManyToOne(
+        Map<String, M> entitiesMany,
+        Function<M, String> entitiesManyGetter,
+        Map<String, O> entitiesOne,
+        BiConsumer<O, List<M>> entitiesOneSetter) {
+        entitiesOne.forEach((guid, entityOne) -> {
+            List<M> entitiesManyToOne = entitiesMany.values().stream()
+                .filter(product -> entitiesManyGetter.apply(product).equals(guid))
                 .collect(Collectors.toList());
-            category.setProducts(categoryProducts);
+            entitiesOneSetter.accept(entityOne, entitiesManyToOne);
         });
     }
 
@@ -69,15 +74,6 @@ public class CatalogBuilder {
                 throw new RuntimeException("Category with GUID [" + product.getCategoryGuid() + "] not found");
             }
             product.setCategory(categoryOptional.get());
-        });
-    }
-
-    private void fillPublishersWithProducts(Map<String, Publisher> publishers, Map<String, Product> products) {
-        publishers.forEach((guid, publisher) -> {
-            List<Product> publisherProducts = products.values().stream()
-                .filter(product -> product.getPublisherGuid().equals(guid))
-                .collect(Collectors.toList());
-            publisher.setProducts(publisherProducts);
         });
     }
 
