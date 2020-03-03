@@ -1,29 +1,20 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Catalog;
-import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Config;
+import ru.alifba.eksmo.service.cleaner.CatalogCleaner;
 import ru.alifba.eksmo.service.parser.CatalogParser;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CatalogService {
+public class CatalogProvider {
 
     private final CatalogParser catalogParser;
     private final CatalogCleaner catalogCleaner;
 
-    public List<Category> getRootCategories(Catalog catalog) {
-        return catalog.getCategories().values().stream()
-            .filter(category -> category.getParent() == null)
-            .collect(Collectors.toList());
-    }
-
-    public Catalog parse(Config config) {
+    public Catalog provide(Config config) {
         Catalog catalog = catalogParser.parse(config);
         // Now we always clean the catalog
         return catalogCleaner.clean(catalog);

@@ -21,12 +21,16 @@ public abstract class DirParser<XML> {
             JAXBContext jaxbContext = JAXBContext.newInstance(xmlClasses());
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             Files.list(dir).forEach(filePath -> throwingRunnable(
-                () -> xmls.add((XML) unmarshaller.unmarshal(filePath.toFile()))
+                () -> xmls.add(preprocess((XML) unmarshaller.unmarshal(filePath.toFile())))
             ));
         });
         return xmls;
     }
 
     protected abstract Class[] xmlClasses();
+
+    protected XML preprocess(XML xml) {
+        return xml;
+    }
 
 }

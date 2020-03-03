@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.cleaner;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CatalogCleaner {
+public class CatalogCleaner implements Cleaner<Catalog> {
 
     private final CatalogComposer catalogComposer;
 

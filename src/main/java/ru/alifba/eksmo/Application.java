@@ -8,8 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.service.ConfigService;
-import ru.alifba.eksmo.service.InputService;
+import ru.alifba.eksmo.service.provider.ConfigProvider;
+import ru.alifba.eksmo.service.provider.InputProvider;
 import ru.alifba.eksmo.step.Step;
 
 import static java.lang.System.exit;
@@ -19,8 +19,8 @@ import static java.lang.System.exit;
 @RequiredArgsConstructor
 public class Application implements CommandLineRunner {
 
-    private final InputService inputService;
-    private final ConfigService configService;
+    private final InputProvider inputProvider;
+    private final ConfigProvider configProvider;
 
     @Qualifier("download")
     private final Step downloadStep;
@@ -45,17 +45,17 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Config config = configService.getConfig();
-        switch (inputService.getString("step")) {
-            case ConfigService.STEP_DOWNLOAD:
+        Config config = configProvider.provide();
+        switch (inputProvider.getString("step")) {
+            case ConfigProvider.STEP_DOWNLOAD:
                 log.info("Step: Download files");
                 downloadStep.execute(config);
                 break;
-            case ConfigService.STEP_STATISTICS:
+            case ConfigProvider.STEP_STATISTICS:
                 log.info("Step: Calc statistics");
                 statisticsStep.execute(config);
                 break;
-            case ConfigService.STEP_CONVERT:
+            case ConfigProvider.STEP_CONVERT:
                 log.info("Step: Convert many XMLs to one YML");
                 convertStep.execute(config);
                 break;

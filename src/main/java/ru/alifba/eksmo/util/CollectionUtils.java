@@ -3,10 +3,7 @@ package ru.alifba.eksmo.util;
 import lombok.experimental.UtilityClass;
 import ru.alifba.eksmo.model.TreeGuidIdentifiable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,6 +15,11 @@ public class CollectionUtils {
         return Stream.of(maps)
             .flatMap(map -> map.entrySet().stream())
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    @SafeVarargs
+    public static <T> Set<T> setOf(T... t) {
+        return new HashSet<>(Arrays.asList(t));
     }
 
     public static <T extends TreeGuidIdentifiable> Map<String, List<T>> buildParentChildrenRelations(

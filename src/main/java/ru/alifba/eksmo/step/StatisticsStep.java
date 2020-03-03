@@ -8,7 +8,8 @@ import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
 import ru.alifba.eksmo.model.Config;
 import ru.alifba.eksmo.model.Product;
-import ru.alifba.eksmo.service.CatalogService;
+import ru.alifba.eksmo.service.provider.CatalogProvider;
+import ru.alifba.eksmo.util.CatalogUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,11 +21,11 @@ import static java.lang.System.out;
 @RequiredArgsConstructor
 public class StatisticsStep implements Step {
 
-    private final CatalogService catalogService;
+    private final CatalogProvider catalogProvider;
 
     public void execute(Config config) {
-        Catalog catalog = catalogService.parse(config);
-        List<Category> rootCategories = catalogService.getRootCategories(catalog);
+        Catalog catalog = catalogProvider.provide(config);
+        List<Category> rootCategories = CatalogUtils.getRootCategories(catalog);
         out.println("--- [ CATEGORIES INFO ] ------------------------------");
         out.println();
         printCategories(rootCategories, 0);
@@ -45,14 +46,13 @@ public class StatisticsStep implements Step {
     private void printCategories(List<Category> categories, int level) {
         categories.forEach(category -> {
             int childrenCount = category.getChildren().size();
-            int productsCount = category.getProducts().size();
-            if (productsCount > 0) {
-                out.print("[ " + category.getGuid() + " ] ");
-                out.print(getPrefix(level));
-                out.print(category.getName());
-                out.print(" ( " + productsCount + " )");
-                out.println();
+            out.print("[ " + category.getGuid() + " ] ");
+            out.print(getPrefix(level));
+            out.print(category.getName());
+            if (childrenCount == 0) {
+                out.print(" ( " + category.getProducts().size() + " )");
             }
+            out.println();
             if (childrenCount > 0) {
                 printCategories(category.getChildren(), level + 1);
             }

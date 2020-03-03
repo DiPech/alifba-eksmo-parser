@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class InputService {
+public class InputProvider {
 
     private final Environment env;
 

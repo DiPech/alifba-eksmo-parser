@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.provider;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -21,7 +21,7 @@ import static ru.alifba.eksmo.util.FileUtils.writeToFile;
 
 @Slf4j
 @Service
-public class ApiService {
+public class XmlProvider {
 
     private static final String API_KEY = "2f3968e97de861abdb3ca5ba048e6c43";
     private static final String API_URL = "https://api.eksmo.ru/v2";
@@ -30,7 +30,7 @@ public class ApiService {
 
     private Config config;
 
-    public void download(Config config, Path xmlPath, String action) {
+    public void provide(Config config, Path xmlPath, String action) {
         this.config = config;
         log.info("Detect how much XMLs to download");
         int itemsCount = getItemsCount(action);

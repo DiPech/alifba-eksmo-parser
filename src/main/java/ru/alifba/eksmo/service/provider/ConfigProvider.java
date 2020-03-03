@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service;
+package ru.alifba.eksmo.service.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,23 +9,23 @@ import java.nio.file.Paths;
 
 @Service
 @RequiredArgsConstructor
-public class ConfigService {
+public class ConfigProvider {
 
     public static final String STEP_DOWNLOAD = "download";
     public static final String STEP_STATISTICS = "statistics";
     public static final String STEP_CONVERT = "convert";
 
-    private final InputService inputService;
+    private final InputProvider inputProvider;
 
-    public Config getConfig() {
-        String inputDirName = inputService.getString("input-dir", "alifba-input");
-        String temporaryDirName = inputService.getString("temporary-dir", "alifba-temporary");
-        String outputDirName = inputService.getString("output-dir", "alifba-output");
+    public Config provide() {
+        String inputDirName = inputProvider.getString("input-dir", "alifba-input");
+        String temporaryDirName = inputProvider.getString("temporary-dir", "alifba-temporary");
+        String outputDirName = inputProvider.getString("output-dir", "alifba-output");
         String downloadMethod = null;
         Integer itemsPerXml = null;
-        if (inputService.getString("step").equals(STEP_DOWNLOAD)) {
-            downloadMethod = inputService.getString("method");
-            itemsPerXml = inputService.getInteger("count");
+        if (inputProvider.getString("step").equals(STEP_DOWNLOAD)) {
+            downloadMethod = inputProvider.getString("method");
+            itemsPerXml = inputProvider.getInteger("count");
         }
         Path homeDir = Paths.get(System.getProperty("user.home"));
         Path desktopDir = homeDir.resolve("Desktop");
