@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service.step;
+package ru.alifba.eksmo.step;
 
 import ru.alifba.eksmo.model.Config;
 

@@ -7,13 +7,10 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.env.Environment;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.service.step.Step;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
+import ru.alifba.eksmo.service.ConfigService;
+import ru.alifba.eksmo.service.InputService;
+import ru.alifba.eksmo.step.Step;
 
 import static java.lang.System.exit;
 
@@ -22,7 +19,8 @@ import static java.lang.System.exit;
 @RequiredArgsConstructor
 public class Application implements CommandLineRunner {
 
-    private final Environment env;
+    private final InputService inputService;
+    private final ConfigService configService;
 
     @Qualifier("download")
     private final Step downloadStep;
@@ -47,26 +45,17 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String step = env.getProperty("step");
-        Objects.requireNonNull(step, "step cannot be null");
-        String ppxStr = env.getProperty("count");
-        Integer itemsPerXml = ppxStr != null ? Integer.parseInt(ppxStr) : null;
-        Boolean clean = Boolean.parseBoolean(env.getProperty("clean"));
-        Path projectDir = Paths.get(System.getProperty("user.dir"));
-        Path inputDir = projectDir.resolve("input");
-        Path outputDir = projectDir.resolve("output");
-        Config config = new Config(inputDir, outputDir, itemsPerXml, clean);
-        switch (step) {
-            case "download":
+        Config config = configService.getConfig();
+        switch (inputService.getString("step")) {
+            case ConfigService.STEP_DOWNLOAD:
                 log.info("Step: Download files");
-                Objects.requireNonNull(itemsPerXml, "itemsPerXml cannot be null");
                 downloadStep.execute(config);
                 break;
-            case "statistics":
+            case ConfigService.STEP_STATISTICS:
                 log.info("Step: Calc statistics");
                 statisticsStep.execute(config);
                 break;
-            case "convert":
+            case ConfigService.STEP_CONVERT:
                 log.info("Step: Convert many XMLs to one YML");
                 convertStep.execute(config);
                 break;

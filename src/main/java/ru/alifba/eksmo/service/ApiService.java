@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.service.step;
+package ru.alifba.eksmo.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -7,7 +7,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Config;
 import ru.alifba.eksmo.util.FileUtils;
@@ -22,8 +21,7 @@ import static ru.alifba.eksmo.util.FileUtils.writeToFile;
 
 @Slf4j
 @Service
-@Qualifier("download")
-public class DownloadStep implements Step {
+public class ApiService {
 
     private static final String API_KEY = "2f3968e97de861abdb3ca5ba048e6c43";
     private static final String API_URL = "https://api.eksmo.ru/v2";
@@ -32,22 +30,8 @@ public class DownloadStep implements Step {
 
     private Config config;
 
-    public void execute(Config config) {
+    public void download(Config config, Path xmlPath, String action) {
         this.config = config;
-        FileUtils.cleanDir(config.getInputDir());
-        log.info("Downloading segments");
-        downloadXmls(config.getSegmentXmlsPath(), "sgmnt_full");
-        log.info("Downloading niches");
-        downloadXmls(config.getNicheXmlsPath(), "niche_full");
-        log.info("Downloading subjects");
-        downloadXmls(config.getSubjectXmlsPath(), "sbjct_full");
-        log.info("Downloading publishers");
-        downloadXmls(config.getPublisherXmlsPath(), "publi_full");
-        log.info("Downloading products");
-        downloadXmls(config.getProductXmlsPath(), "products");
-    }
-
-    private void downloadXmls(Path xmlPath, String action) {
         log.info("Detect how much XMLs to download");
         int itemsCount = getItemsCount(action);
         log.info("Items count: " + itemsCount);

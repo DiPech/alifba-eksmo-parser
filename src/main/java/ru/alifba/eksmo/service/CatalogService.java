@@ -25,10 +25,8 @@ public class CatalogService {
 
     public Catalog parse(Config config) {
         Catalog catalog = catalogParser.parse(config);
-        if (config.getIsNeedToClean()) {
-            catalog = catalogCleaner.clean(catalog);
-        }
-        return catalog;
+        // Now we always clean the catalog
+        return catalogCleaner.clean(catalog);
     }
 
 }

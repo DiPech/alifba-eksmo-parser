@@ -10,9 +10,10 @@ import java.nio.file.Path;
 public class Config {
 
     private final Path inputDir;
+    private final Path temporaryDir;
     private final Path outputDir;
+    private final String downloadMethod;
     private final Integer itemsPerXml;
-    private final Boolean isNeedToClean;
 
     public Path getSegmentXmlsPath() {
         return inputDir.resolve("segment");

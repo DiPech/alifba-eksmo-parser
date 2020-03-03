@@ -2,16 +2,29 @@
 
 ## How to run
 
-**Flags:**
+**Common flags:**
 * `step`: Current step of the parser.
-* `count`: Entities count per XML file.
-* `clean`: Do or don't do catalog optimizations like cleaning unused categories in it.
+* `input-dir`: Dir name with input XMLs. Default: "alifba-input".
+* `temporary-dir`: Dir name with model cache. Default: "alifba-temporary".
 
-### Step 1: Download XMLs
-`./gradlew bootRun -Pargs="--step=download,--count=50"`
+### Step 1: Download XMLs to input dir
+
+**Flags:**
+* `method`: API method to use: ["products", "products_full"].
+* `count`: Entities per XML file count.
+
+**Dev config:**
+`./gradlew bootRun -Pargs="--step=download,--input-dir=alifba-input-dev,--method=products,--count=50"`
+
+**Prod config:**
+`./gradlew bootRun -Pargs="--step=download,--input-dir=alifba-input-prod,--method=products_full,--count=1000"`
 
 ### Step 2: Calculate statistics
-`./gradlew bootRun -Pargs="--step=statistics,--clean=true"`
+`./gradlew bootRun -Pargs="--step=statistics"`
 
 ### Step 3: Convert to YML
-`./gradlew bootRun -Pargs="--step=convert,--clean=true"`
+
+**Flags:**
+* `output-dir`: Dir name with output. Default: "alifba-output".
+
+`./gradlew bootRun -Pargs="--step=convert"`
