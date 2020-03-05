@@ -4,11 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class Product extends Entity {
+public class Product extends Entity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String categoryGuid;
     private final String publisherGuid;

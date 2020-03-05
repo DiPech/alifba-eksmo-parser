@@ -11,7 +11,6 @@ import ru.alifba.eksmo.model.Product;
 import ru.alifba.eksmo.service.provider.CatalogProvider;
 import ru.alifba.eksmo.util.CatalogUtils;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -21,6 +20,7 @@ import static java.lang.System.out;
 @RequiredArgsConstructor
 public class StatisticsStep implements Step {
 
+    @Qualifier("cached")
     private final CatalogProvider catalogProvider;
 
     public void execute(Config config) {
@@ -66,23 +66,11 @@ public class StatisticsStep implements Step {
             if (productsCount == 0) {
                 return;
             }
-            out.print("[" + publisher.getGuid() + "] ");
+            out.print("[ " + publisher.getGuid() + " ] ");
             out.print(publisher.getName() + " ");
-            out.print("( ");
-            out.print("TOTAL: " + productsCount + "; ");
-            out.print(">2015: " + calcProductsStartFromYear(products, 2015) + "; ");
-            out.print(">2017: " + calcProductsStartFromYear(products, 2017) + "; ");
-            out.print(">2019: " + calcProductsStartFromYear(products, 2019) + "; ");
-            out.print(" )");
+            out.print("( " + productsCount + " )");
             out.println();
         });
-    }
-
-    private int calcProductsStartFromYear(List<Product> products, int year) {
-        return (int) products.stream()
-            .filter(p -> p.getLastEditionDate() != null)
-            .filter(p -> p.getLastEditionDate().isAfter(LocalDate.of(year, 1, 1)))
-            .count();
     }
 
     private String getPrefix(int level) {

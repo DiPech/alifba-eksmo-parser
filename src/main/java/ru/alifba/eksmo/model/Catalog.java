@@ -1,18 +1,20 @@
 package ru.alifba.eksmo.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.Map;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class Catalog {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Catalog implements Serializable {
 
-    private final Map<String, Category> categories;
-    private final Map<String, Product> products;
-    private final Map<String, Publisher> publishers;
+    private static final long serialVersionUID = 1L;
+
+    private Map<String, Category> categories;
+    private Map<String, Product> products;
+    private Map<String, Publisher> publishers;
 
 }

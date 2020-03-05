@@ -1,13 +1,18 @@
 package ru.alifba.eksmo.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
-public class Category extends TreeEntity {
+@NoArgsConstructor
+public class Category extends TreeEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private Category parent;
@@ -18,4 +23,5 @@ public class Category extends TreeEntity {
         super(guid, parentGuid);
         this.name = name;
     }
+
 }

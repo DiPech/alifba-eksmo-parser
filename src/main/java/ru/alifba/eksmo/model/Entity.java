@@ -1,12 +1,18 @@
 package ru.alifba.eksmo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Getter
-@RequiredArgsConstructor
-public abstract class Entity implements GuidIdentifiable {
+@NoArgsConstructor
+@AllArgsConstructor
+public abstract class Entity implements GuidIdentifiable, Serializable {
 
-    private final String guid;
+    private static final long serialVersionUID = 1L;
+
+    private String guid;
 
 }
