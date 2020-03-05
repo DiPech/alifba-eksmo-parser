@@ -3,7 +3,7 @@ package ru.alifba.eksmo.model.dto.xml.product;
 import lombok.Getter;
 import lombok.Setter;
 import ru.alifba.eksmo.model.dto.xml.EntityXml;
-import ru.alifba.eksmo.service.adapter.LocalDateAdapter;
+import ru.alifba.eksmo.service.adapter.XmlLocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -56,7 +56,7 @@ public class ProductXml extends EntityXml {
     private String sourceCover4;
 
     @XmlElement(name = "ldate_d")
-    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @XmlJavaTypeAdapter(value = XmlLocalDateAdapter.class)
     private LocalDate lDateD;
 
 }

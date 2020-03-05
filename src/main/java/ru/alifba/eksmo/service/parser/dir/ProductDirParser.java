@@ -14,7 +14,7 @@ public class ProductDirParser extends DirParser<ProductsFileXml> {
     private final ProductXmlCleaner xmlCleaner;
 
     @Override
-    protected Class[] xmlClasses() {
+    protected Class[] getXmlClasses() {
         return new Class[]{ProductsFileXml.class, ProductsXml.class, ProductXml.class};
     }
 

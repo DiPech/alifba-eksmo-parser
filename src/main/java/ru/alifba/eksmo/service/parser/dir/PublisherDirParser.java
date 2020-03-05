@@ -9,7 +9,7 @@ import ru.alifba.eksmo.model.dto.xml.publisher.PublishersXml;
 public class PublisherDirParser extends DirParser<PublishersFileXml> {
 
     @Override
-    protected Class[] xmlClasses() {
+    protected Class[] getXmlClasses() {
         return new Class[]{PublishersFileXml.class, PublishersXml.class, PublisherXml.class};
     }
 

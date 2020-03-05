@@ -9,7 +9,7 @@ import ru.alifba.eksmo.model.dto.xml.segment.SegmentsXml;
 public class SegmentDirParser extends DirParser<SegmentsFileXml> {
 
     @Override
-    protected Class[] xmlClasses() {
+    protected Class[] getXmlClasses() {
         return new Class[]{SegmentsFileXml.class, SegmentsXml.class, SegmentXml.class};
     }
 

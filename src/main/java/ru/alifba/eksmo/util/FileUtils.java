@@ -5,6 +5,7 @@ import org.springframework.util.FileSystemUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 import static ru.alifba.eksmo.util.ThrowingRunnable.throwingRunnable;
 
@@ -16,6 +17,10 @@ public class FileUtils {
             FileSystemUtils.deleteRecursively(dir);
             Files.createDirectories(dir);
         });
+    }
+
+    public static void foreachFile(Path dir, Consumer<Path> consumer) {
+        throwingRunnable(() -> Files.list(dir).forEach(consumer));
     }
 
     public static void writeToFile(Path path, String content) {

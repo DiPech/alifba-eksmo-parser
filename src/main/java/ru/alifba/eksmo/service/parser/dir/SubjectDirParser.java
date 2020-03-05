@@ -9,7 +9,7 @@ import ru.alifba.eksmo.model.dto.xml.subject.SubjectsXml;
 public class SubjectDirParser extends DirParser<SubjectsFileXml> {
 
     @Override
-    protected Class[] xmlClasses() {
+    protected Class[] getXmlClasses() {
         return new Class[]{SubjectsFileXml.class, SubjectsXml.class, SubjectXml.class};
     }
 

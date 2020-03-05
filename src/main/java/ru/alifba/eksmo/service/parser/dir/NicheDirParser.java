@@ -9,7 +9,7 @@ import ru.alifba.eksmo.model.dto.xml.niche.NichesXml;
 public class NicheDirParser extends DirParser<NicheFileXml> {
 
     @Override
-    protected Class[] xmlClasses() {
+    protected Class[] getXmlClasses() {
         return new Class[]{NicheFileXml.class, NichesXml.class, NicheXml.class};
     }
 
