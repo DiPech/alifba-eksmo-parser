@@ -1,19 +1,19 @@
-package ru.alifba.eksmo.model.dto;
+package ru.alifba.eksmo.model.dto.xml.niche;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.alifba.eksmo.model.TreeGuidIdentifiable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.List;
 
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class TreeDto extends Dto implements TreeGuidIdentifiable {
+public class NichesXml {
 
-    @XmlElement(name = "parent_guid")
-    private String parentGuid;
+    @XmlElement(name = "niche")
+    private List<NicheXml> niches;
 
 }

@@ -3,8 +3,8 @@ package ru.alifba.eksmo.service.parser.xml;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.model.dto.subject.SubjectDto;
-import ru.alifba.eksmo.model.dto.subject.SubjectXml;
+import ru.alifba.eksmo.model.dto.xml.subject.SubjectXml;
+import ru.alifba.eksmo.model.dto.xml.subject.SubjectsFileXml;
 import ru.alifba.eksmo.service.parser.dir.DirParser;
 import ru.alifba.eksmo.service.parser.dir.SubjectDirParser;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SubjectXmlParser extends AbstractTreeEntityXmlParser<SubjectXml, SubjectDto> {
+public class SubjectXmlParser extends AbstractTreeEntityXmlParser<SubjectsFileXml, SubjectXml> {
 
     private final SubjectDirParser subjectDirParser;
 
     @Override
-    protected DirParser<SubjectXml> getDirParser() {
+    protected DirParser<SubjectsFileXml> getDirParser() {
         return subjectDirParser;
     }
 
@@ -28,8 +28,8 @@ public class SubjectXmlParser extends AbstractTreeEntityXmlParser<SubjectXml, Su
     }
 
     @Override
-    protected List<SubjectDto> getDtoList(SubjectXml xml) {
-        return xml.getSubjects().getSubjects();
+    protected List<SubjectXml> getEntityXmlList(SubjectsFileXml fileXml) {
+        return fileXml.getSubjects().getSubjects();
     }
 
 }

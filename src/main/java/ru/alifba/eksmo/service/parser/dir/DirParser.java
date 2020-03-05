@@ -12,16 +12,16 @@ import java.util.List;
 import static ru.alifba.eksmo.util.ThrowingRunnable.throwingRunnable;
 
 @Service
-public abstract class DirParser<XML> {
+public abstract class DirParser<FILE_XML> {
 
     @SuppressWarnings("unchecked")
-    public List<XML> parse(Path dir) {
-        List<XML> xmls = new ArrayList<>();
+    public List<FILE_XML> parse(Path dir) {
+        List<FILE_XML> xmls = new ArrayList<>();
         throwingRunnable(() -> {
             JAXBContext jaxbContext = JAXBContext.newInstance(xmlClasses());
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             Files.list(dir).forEach(filePath -> throwingRunnable(
-                () -> xmls.add(preprocess((XML) unmarshaller.unmarshal(filePath.toFile())))
+                () -> xmls.add(preprocess((FILE_XML) unmarshaller.unmarshal(filePath.toFile())))
             ));
         });
         return xmls;
@@ -29,8 +29,8 @@ public abstract class DirParser<XML> {
 
     protected abstract Class[] xmlClasses();
 
-    protected XML preprocess(XML xml) {
-        return xml;
+    protected FILE_XML preprocess(FILE_XML fileXml) {
+        return fileXml;
     }
 
 }

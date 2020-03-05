@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto.subject;
+package ru.alifba.eksmo.model.dto.xml.subject;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Setter
 @XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectXml {
+public class SubjectsFileXml {
 
     @XmlElement(name = "subjects")
-    private SubjectsDto subjects;
+    private SubjectsXml subjects;
 
 }

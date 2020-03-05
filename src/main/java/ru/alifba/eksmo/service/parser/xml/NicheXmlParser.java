@@ -3,8 +3,8 @@ package ru.alifba.eksmo.service.parser.xml;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.model.dto.niche.NicheDto;
-import ru.alifba.eksmo.model.dto.niche.NicheXml;
+import ru.alifba.eksmo.model.dto.xml.niche.NicheXml;
+import ru.alifba.eksmo.model.dto.xml.niche.NicheFileXml;
 import ru.alifba.eksmo.service.parser.dir.DirParser;
 import ru.alifba.eksmo.service.parser.dir.NicheDirParser;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NicheXmlParser extends AbstractTreeEntityXmlParser<NicheXml, NicheDto> {
+public class NicheXmlParser extends AbstractTreeEntityXmlParser<NicheFileXml, NicheXml> {
 
     private final NicheDirParser nicheDirParser;
 
     @Override
-    protected DirParser<NicheXml> getDirParser() {
+    protected DirParser<NicheFileXml> getDirParser() {
         return nicheDirParser;
     }
 
@@ -28,8 +28,8 @@ public class NicheXmlParser extends AbstractTreeEntityXmlParser<NicheXml, NicheD
     }
 
     @Override
-    protected List<NicheDto> getDtoList(NicheXml xml) {
-        return xml.getNiches().getNiches();
+    protected List<NicheXml> getEntityXmlList(NicheFileXml fileXml) {
+        return fileXml.getNiches().getNiches();
     }
 
 }

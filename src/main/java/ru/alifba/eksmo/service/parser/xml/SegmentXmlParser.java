@@ -3,8 +3,8 @@ package ru.alifba.eksmo.service.parser.xml;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Config;
-import ru.alifba.eksmo.model.dto.segment.SegmentDto;
-import ru.alifba.eksmo.model.dto.segment.SegmentXml;
+import ru.alifba.eksmo.model.dto.xml.segment.SegmentXml;
+import ru.alifba.eksmo.model.dto.xml.segment.SegmentsFileXml;
 import ru.alifba.eksmo.service.parser.dir.DirParser;
 import ru.alifba.eksmo.service.parser.dir.SegmentDirParser;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SegmentXmlParser extends AbstractTreeEntityXmlParser<SegmentXml, SegmentDto> {
+public class SegmentXmlParser extends AbstractTreeEntityXmlParser<SegmentsFileXml, SegmentXml> {
 
     private final SegmentDirParser segmentDirParser;
 
     @Override
-    protected DirParser<SegmentXml> getDirParser() {
+    protected DirParser<SegmentsFileXml> getDirParser() {
         return segmentDirParser;
     }
 
@@ -28,8 +28,8 @@ public class SegmentXmlParser extends AbstractTreeEntityXmlParser<SegmentXml, Se
     }
 
     @Override
-    protected List<SegmentDto> getDtoList(SegmentXml xml) {
-        return xml.getSegments().getSegments();
+    protected List<SegmentXml> getEntityXmlList(SegmentsFileXml fileXml) {
+        return fileXml.getSegments().getSegments();
     }
 
 }

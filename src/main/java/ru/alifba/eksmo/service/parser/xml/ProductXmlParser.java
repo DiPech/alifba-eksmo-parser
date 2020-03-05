@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Config;
 import ru.alifba.eksmo.model.Product;
-import ru.alifba.eksmo.model.dto.product.ProductDto;
-import ru.alifba.eksmo.model.dto.product.ProductXml;
+import ru.alifba.eksmo.model.dto.xml.product.ProductXml;
+import ru.alifba.eksmo.model.dto.xml.product.ProductsFileXml;
 import ru.alifba.eksmo.service.parser.dir.DirParser;
 import ru.alifba.eksmo.service.parser.dir.ProductDirParser;
 
@@ -14,12 +14,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductXmlParser extends AbstractXmlParser<ProductXml, ProductDto, Product> {
+public class ProductXmlParser extends AbstractXmlParser<ProductsFileXml, ProductXml, Product> {
 
     private final ProductDirParser productDirParser;
 
     @Override
-    protected DirParser<ProductXml> getDirParser() {
+    protected DirParser<ProductsFileXml> getDirParser() {
         return productDirParser;
     }
 
@@ -29,26 +29,26 @@ public class ProductXmlParser extends AbstractXmlParser<ProductXml, ProductDto, 
     }
 
     @Override
-    protected List<ProductDto> getDtoList(ProductXml xml) {
-        return xml.getProducts().getProducts();
+    protected List<ProductXml> getEntityXmlList(ProductsFileXml fileXml) {
+        return fileXml.getProducts().getProducts();
     }
 
     @Override
-    protected Product convertDtoToEntity(ProductDto dto) {
+    protected Product convertEntityXmlToEntity(ProductXml entityXml) {
         return Product.builder()
-            .guid(dto.getGuid())
-            .categoryGuid(dto.getSbjct().getGuid())
-            .publisherGuid(dto.getPubli().getGuid())
-            .name(dto.getName())
-            .price(dto.getPrice())
-            .weight(dto.getBrgew())
-            .width(dto.getWidth())
-            .height(dto.getHeight())
-            .depth(dto.getDepth())
-            .image(dto.getSourcePicture())
-            .image2(dto.getSourceCover4())
-            .pagesCount(dto.getQtypg())
-            .lastEditionDate(dto.getLDateD())
+            .guid(entityXml.getGuid())
+            .categoryGuid(entityXml.getSbjct().getGuid())
+            .publisherGuid(entityXml.getPubli().getGuid())
+            .name(entityXml.getName())
+            .price(entityXml.getPrice())
+            .weight(entityXml.getBrgew())
+            .width(entityXml.getWidth())
+            .height(entityXml.getHeight())
+            .depth(entityXml.getDepth())
+            .image(entityXml.getSourcePicture())
+            .image2(entityXml.getSourceCover4())
+            .pagesCount(entityXml.getQtypg())
+            .lastEditionDate(entityXml.getLDateD())
             .build();
     }
 

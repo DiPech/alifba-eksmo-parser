@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto.subject;
+package ru.alifba.eksmo.model.dto.xml.product;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectsDto {
+public class ProductsXml {
 
-    @XmlElement(name = "subject")
-    private List<SubjectDto> subjects;
+    @XmlElement(name = "product")
+    private List<ProductXml> products;
 
 }

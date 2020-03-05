@@ -1,15 +1,16 @@
 package ru.alifba.eksmo.service.parser.dir;
 
 import org.springframework.stereotype.Service;
-import ru.alifba.eksmo.model.dto.subject.SubjectDto;
-import ru.alifba.eksmo.model.dto.subject.SubjectXml;
-import ru.alifba.eksmo.model.dto.subject.SubjectsDto;
+import ru.alifba.eksmo.model.dto.xml.subject.SubjectXml;
+import ru.alifba.eksmo.model.dto.xml.subject.SubjectsFileXml;
+import ru.alifba.eksmo.model.dto.xml.subject.SubjectsXml;
 
 @Service
-public class SubjectDirParser extends DirParser<SubjectXml> {
+public class SubjectDirParser extends DirParser<SubjectsFileXml> {
 
     @Override
     protected Class[] xmlClasses() {
-        return new Class[]{SubjectXml.class, SubjectsDto.class, SubjectDto.class};
+        return new Class[]{SubjectsFileXml.class, SubjectsXml.class, SubjectXml.class};
     }
+
 }

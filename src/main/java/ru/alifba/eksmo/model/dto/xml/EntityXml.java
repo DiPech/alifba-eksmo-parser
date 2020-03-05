@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto;
+package ru.alifba.eksmo.model.dto.xml;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class Dto implements GuidIdentifiable {
+public abstract class EntityXml implements GuidIdentifiable {
 
     @XmlElement(name = "guid")
     private String guid;

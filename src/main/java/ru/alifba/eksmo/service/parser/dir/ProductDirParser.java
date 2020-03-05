@@ -2,24 +2,25 @@ package ru.alifba.eksmo.service.parser.dir;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.alifba.eksmo.model.dto.product.ProductDto;
-import ru.alifba.eksmo.model.dto.product.ProductXml;
-import ru.alifba.eksmo.model.dto.product.ProductsDto;
+import ru.alifba.eksmo.model.dto.xml.product.ProductXml;
+import ru.alifba.eksmo.model.dto.xml.product.ProductsFileXml;
+import ru.alifba.eksmo.model.dto.xml.product.ProductsXml;
 import ru.alifba.eksmo.service.cleaner.ProductXmlCleaner;
 
 @Service
 @RequiredArgsConstructor
-public class ProductDirParser extends DirParser<ProductXml> {
+public class ProductDirParser extends DirParser<ProductsFileXml> {
 
-    private final ProductXmlCleaner cleaner;
+    private final ProductXmlCleaner xmlCleaner;
 
     @Override
     protected Class[] xmlClasses() {
-        return new Class[]{ProductXml.class, ProductsDto.class, ProductDto.class};
+        return new Class[]{ProductsFileXml.class, ProductsXml.class, ProductXml.class};
     }
 
     @Override
-    protected ProductXml preprocess(ProductXml productXml) {
-        return cleaner.clean(productXml);
+    protected ProductsFileXml preprocess(ProductsFileXml fileXml) {
+        return xmlCleaner.clean(fileXml);
     }
+
 }

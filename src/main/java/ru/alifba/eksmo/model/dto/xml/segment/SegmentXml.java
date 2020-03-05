@@ -1,8 +1,8 @@
-package ru.alifba.eksmo.model.dto.subject;
+package ru.alifba.eksmo.model.dto.xml.segment;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.alifba.eksmo.model.dto.TreeDto;
+import ru.alifba.eksmo.model.dto.xml.TreeEntityXml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,6 +10,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectDto extends TreeDto {
+public class SegmentXml extends TreeEntityXml {
 
 }

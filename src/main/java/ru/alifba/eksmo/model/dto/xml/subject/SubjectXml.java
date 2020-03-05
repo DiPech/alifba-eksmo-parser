@@ -1,18 +1,15 @@
-package ru.alifba.eksmo.model.dto.product;
+package ru.alifba.eksmo.model.dto.xml.subject;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.alifba.eksmo.model.dto.xml.TreeEntityXml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ReferenceDto {
-
-    @XmlAttribute(name = "guid")
-    private String guid;
+public class SubjectXml extends TreeEntityXml {
 
 }

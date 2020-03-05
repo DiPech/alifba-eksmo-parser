@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto.publisher;
+package ru.alifba.eksmo.model.dto.xml.publisher;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PublishersDto {
+public class PublishersXml {
 
     @XmlElement(name = "publisher")
-    private List<PublisherDto> publishers;
+    private List<PublisherXml> publishers;
 
 }

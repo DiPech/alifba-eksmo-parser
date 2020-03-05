@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto.product;
+package ru.alifba.eksmo.model.dto.xml.product;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Setter
 @XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductXml {
+public class ProductsFileXml {
 
     @XmlElement(name = "products")
-    private ProductsDto products;
+    private ProductsXml products;
 
 }

@@ -40,8 +40,6 @@ public class CachedCatalogProviderImpl implements CatalogProvider {
             return catalog;
         }
         log.info("Cache not found, loading from XMLs");
-
-        log.info("Loading data from cache");
         timer.start();
         Catalog catalog = catalogProvider.provide(config);
         timer.stop();

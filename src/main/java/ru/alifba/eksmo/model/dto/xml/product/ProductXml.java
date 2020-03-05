@@ -1,8 +1,8 @@
-package ru.alifba.eksmo.model.dto.product;
+package ru.alifba.eksmo.model.dto.xml.product;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.alifba.eksmo.model.dto.Dto;
+import ru.alifba.eksmo.model.dto.xml.EntityXml;
 import ru.alifba.eksmo.service.adapter.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,19 +14,19 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductDto extends Dto {
+public class ProductXml extends EntityXml {
 
     @XmlElement(name = "sbjct")
-    private ReferenceDto sbjct;
+    private ReferenceEntityXml sbjct;
 
     @XmlElement(name = "niche")
-    private ReferenceDto niche;
+    private ReferenceEntityXml niche;
 
     @XmlElement(name = "sgmnt")
-    private ReferenceDto sgmnt;
+    private ReferenceEntityXml sgmnt;
 
     @XmlElement(name = "publi")
-    private ReferenceDto publi;
+    private ReferenceEntityXml publi;
 
     @XmlElement(name = "isbnn")
     private String isbnn;

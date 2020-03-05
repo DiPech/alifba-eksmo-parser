@@ -1,4 +1,4 @@
-package ru.alifba.eksmo.model.dto.niche;
+package ru.alifba.eksmo.model.dto.xml.niche;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,14 +6,15 @@ import lombok.Setter;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Getter
 @Setter
+@XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NichesDto {
+public class NicheFileXml {
 
-    @XmlElement(name = "niche")
-    private List<NicheDto> niches;
+    @XmlElement(name = "niches")
+    private NichesXml niches;
 
 }
