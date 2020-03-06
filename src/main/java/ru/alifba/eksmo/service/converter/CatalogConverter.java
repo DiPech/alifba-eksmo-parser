@@ -15,6 +15,8 @@ import java.util.List;
 @Service
 public class CatalogConverter {
 
+    private static final String CURRENCY = "RUR";
+
     private Catalog catalog;
 
     public CatalogYml convert(Catalog catalog) {
@@ -28,7 +30,7 @@ public class CatalogConverter {
     }
 
     private CurrenciesYml buildCurrenciesYml() {
-        return new CurrenciesYml(Collections.singletonList(new CurrencyYml("RUR", "1")));
+        return new CurrenciesYml(Collections.singletonList(new CurrencyYml(CURRENCY, "1")));
     }
 
     private List<CategoryYml> buildCategoryYmlList() {
@@ -57,10 +59,47 @@ public class CatalogConverter {
         return OfferYml.builder()
             .id(product.getGuid())
             .categoryId(product.getCategory().getGuid())
+            .currencyId(CURRENCY)
             .vendor(product.getPublisher().getName())
             .name(product.getName())
-            .price(product.getPrice())
+            .price(getProductPrice(product))
+            .weight(product.getWeight())
+            .available(999999) // Hardcoded, because of no needed data in input XMLs
+            .pictures(buildPicturesList(product))
+            .parameters(buildParametersList(product))
             .build();
+    }
+
+    private Float getProductPrice(Product product) {
+        return (float) Math.ceil(product.getPrice());
+    }
+
+    private List<String> buildPicturesList(Product product) {
+        List<String> images = new ArrayList<>();
+        if (product.getImage() != null && product.getImage().length() > 0) {
+            images.add(product.getImage());
+        }
+        if (product.getImage2() != null && product.getImage2().length() > 0) {
+            images.add(product.getImage2());
+        }
+        return images;
+    }
+
+    private List<ParameterYml> buildParametersList(Product product) {
+        List<ParameterYml> parameters = new ArrayList<>();
+        if (product.getWidth() != null && product.getWidth() > 0) {
+            parameters.add(new ParameterYml("width", product.getWidth().toString()));
+        }
+        if (product.getHeight() != null && product.getHeight() > 0) {
+            parameters.add(new ParameterYml("height", product.getHeight().toString()));
+        }
+        if (product.getDepth() != null && product.getDepth() > 0) {
+            parameters.add(new ParameterYml("depth", product.getDepth().toString()));
+        }
+        if (product.getPagesCount() != null && product.getPagesCount() > 0) {
+            parameters.add(new ParameterYml("pages_count", product.getPagesCount().toString()));
+        }
+        return parameters;
     }
 
 }

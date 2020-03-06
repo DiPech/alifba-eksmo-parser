@@ -32,7 +32,7 @@ public class ProductXml extends EntityXml {
     private String isbnn;
 
     @XmlElement(name = "brgew")
-    private String brgew;
+    private Float brgew;
 
     @XmlElement(name = "price")
     private Float price;

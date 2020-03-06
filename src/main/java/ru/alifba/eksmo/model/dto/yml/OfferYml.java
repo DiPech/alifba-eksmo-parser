@@ -3,10 +3,8 @@ package ru.alifba.eksmo.model.dto.yml;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @Getter
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -33,15 +31,22 @@ public class OfferYml {
     @XmlElement(name = "price")
     private final Float price;
 
+    @XmlElement(name = "weight")
+    private final Float weight;
+
     @XmlElement(name = "available")
     private final Integer available;
 
     @XmlElement(name = "picture")
-    private final String picture;
+    private final List<String> pictures;
+
+    @XmlElement(name = "param")
+    private final List<ParameterYml> parameters;
 
     @Builder
     public OfferYml(String id, String currencyId, String categoryId, String name, String description, String vendor,
-                    Float price, Integer available, String picture) {
+                    Float price, Float weight, Integer available, List<String> pictures,
+                    List<ParameterYml> parameters) {
         this.id = id;
         this.currencyId = currencyId;
         this.categoryId = categoryId;
@@ -49,7 +54,9 @@ public class OfferYml {
         this.description = description;
         this.vendor = vendor;
         this.price = price;
+        this.weight = weight;
         this.available = available;
-        this.picture = picture;
+        this.pictures = pictures;
+        this.parameters = parameters;
     }
 }
