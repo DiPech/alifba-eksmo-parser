@@ -3,6 +3,7 @@ package ru.alifba.eksmo.service.converter;
 import org.springframework.stereotype.Service;
 import ru.alifba.eksmo.model.Catalog;
 import ru.alifba.eksmo.model.Category;
+import ru.alifba.eksmo.model.Product;
 import ru.alifba.eksmo.model.dto.yml.*;
 import ru.alifba.eksmo.util.CatalogUtils;
 
@@ -23,7 +24,7 @@ public class CatalogConverter {
 
     private ShopYml buildShopYml() {
         return new ShopYml("Eksmo", "OOO Eksmo", "https://eksmo.ru",
-            buildCurrenciesYml(), new CategoriesYml(buildCategoryYmlList()));
+            buildCurrenciesYml(), new CategoriesYml(buildCategoryYmlList()), new OffersYml(buildOfferYmlList()));
     }
 
     private CurrenciesYml buildCurrenciesYml() {
@@ -44,6 +45,22 @@ public class CatalogConverter {
                 fillCategoryYmlList(categoriesYml, category.getChildren());
             }
         });
+    }
+
+    private List<OfferYml> buildOfferYmlList() {
+        List<OfferYml> offers = new ArrayList<>();
+        catalog.getProducts().values().forEach(product -> offers.add(toEntityYml(product)));
+        return offers;
+    }
+
+    private OfferYml toEntityYml(Product product) {
+        return OfferYml.builder()
+            .id(product.getGuid())
+            .categoryId(product.getCategory().getGuid())
+            .vendor(product.getPublisher().getName())
+            .name(product.getName())
+            .price(product.getPrice())
+            .build();
     }
 
 }

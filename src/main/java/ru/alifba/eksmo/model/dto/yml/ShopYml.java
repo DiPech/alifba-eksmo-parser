@@ -27,4 +27,7 @@ public class ShopYml {
     @XmlElement(name = "categories")
     private final CategoriesYml categories;
 
+    @XmlElement(name = "offers")
+    private final OffersYml offers;
+
 }
