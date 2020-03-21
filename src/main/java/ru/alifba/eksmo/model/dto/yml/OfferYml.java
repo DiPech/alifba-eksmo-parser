@@ -28,6 +28,9 @@ public class OfferYml {
     @XmlElement(name = "vendor")
     private final String vendor;
 
+    @XmlElement(name = "vendorCode")
+    private final String vendorCode;
+
     @XmlElement(name = "price")
     private final Float price;
 
@@ -45,7 +48,7 @@ public class OfferYml {
 
     @Builder
     public OfferYml(String id, String currencyId, String categoryId, String name, String description, String vendor,
-                    Float price, Float weight, Integer available, List<String> pictures,
+                    String vendorCode, Float price, Float weight, Integer available, List<String> pictures,
                     List<ParameterYml> parameters) {
         this.id = id;
         this.currencyId = currencyId;
@@ -53,6 +56,7 @@ public class OfferYml {
         this.name = name;
         this.description = description;
         this.vendor = vendor;
+        this.vendorCode = vendorCode;
         this.price = price;
         this.weight = weight;
         this.available = available;

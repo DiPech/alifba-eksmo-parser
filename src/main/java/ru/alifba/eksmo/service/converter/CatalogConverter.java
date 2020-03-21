@@ -62,6 +62,8 @@ public class CatalogConverter {
             .currencyId(CURRENCY)
             .vendor(product.getPublisher().getName())
             .name(product.getName())
+            .description(product.getDescription())
+            .vendorCode(product.getVendorCode())
             .price(getProductPrice(product))
             .weight(product.getWeight())
             .available(999999) // Hardcoded, because of no needed data in input XMLs
@@ -98,6 +100,9 @@ public class CatalogConverter {
         }
         if (product.getPagesCount() != null && product.getPagesCount() > 0) {
             parameters.add(new ParameterYml("pages_count", product.getPagesCount().toString()));
+        }
+        if (product.getIsbn() != null && product.getIsbn().length() > 0) {
+            parameters.add(new ParameterYml("isbn", product.getIsbn()));
         }
         return parameters;
     }
