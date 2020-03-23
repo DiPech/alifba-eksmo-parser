@@ -8,6 +8,7 @@ import ru.alifba.eksmo.model.dto.yml.*;
 import ru.alifba.eksmo.util.CatalogUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 public class CatalogConverter {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String CURRENCY = "RUR";
 
     private Catalog catalog;
@@ -103,6 +105,12 @@ public class CatalogConverter {
         }
         if (product.getIsbn() != null && product.getIsbn().length() > 0) {
             parameters.add(new ParameterYml("isbn", product.getIsbn()));
+        }
+        if (product.getAuthors() != null && product.getAuthors().length() > 0) {
+            parameters.add(new ParameterYml("authors", product.getAuthors()));
+        }
+        if (product.getLastEditionDate() != null) {
+            parameters.add(new ParameterYml("publish_date", product.getLastEditionDate().format(DATE_TIME_FORMATTER)));
         }
         return parameters;
     }

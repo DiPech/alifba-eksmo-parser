@@ -40,6 +40,7 @@ public class ProductXmlParser extends AbstractXmlParser<ProductsFileXml, Product
             .categoryGuid(entityXml.getSbjct().getGuid())
             .publisherGuid(entityXml.getPubli().getGuid())
             .vendorCode(entityXml.getProdcode())
+            .authors(entityXml.getPriceAuthors())
             .name(entityXml.getName())
             .description(entityXml.getDetailText())
             .isbn(entityXml.getIsbnn())

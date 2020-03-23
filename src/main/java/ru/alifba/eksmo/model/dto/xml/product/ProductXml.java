@@ -37,6 +37,9 @@ public class ProductXml extends EntityXml {
     @XmlElement(name = "detail_text")
     private String detailText;
 
+    @XmlElement(name = "price_authors")
+    private String priceAuthors;
+
     @XmlElement(name = "brgew")
     private Float brgew;
 

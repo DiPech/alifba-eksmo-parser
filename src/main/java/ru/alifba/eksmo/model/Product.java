@@ -18,6 +18,7 @@ public class Product extends Entity implements Serializable {
     private final String name;
     private final String description;
     private final String vendorCode;
+    private final String authors;
     private final String isbn;
     private final Float price;
     private final Float weight;
@@ -33,15 +34,16 @@ public class Product extends Entity implements Serializable {
 
     @Builder
     public Product(String guid, String categoryGuid, String publisherGuid, String name, String description,
-                   String vendorCode, String isbn, Float price, Float weight, Float width, Float height, Float depth,
-                   Integer pagesCount, String image, String image2, LocalDate lastEditionDate, Category category,
-                   Publisher publisher) {
+                   String vendorCode, String authors, String isbn, Float price, Float weight, Float width, Float height,
+                   Float depth, Integer pagesCount, String image, String image2, LocalDate lastEditionDate,
+                   Category category, Publisher publisher) {
         super(guid);
         this.categoryGuid = categoryGuid;
         this.publisherGuid = publisherGuid;
         this.name = name;
         this.description = description;
         this.vendorCode = vendorCode;
+        this.authors = authors;
         this.isbn = isbn;
         this.price = price;
         this.weight = weight;
