@@ -1,11 +1,11 @@
-# Alifba Eksmo Parser
+# Alifba Eksmo Parser (2020)
 
 ## 1. Foreword
 
-This is one of internal projects which has been made during working on online store [alifba.ru](https://alifba.ru)
+This is one of the internal projects which has been made during working on online store [alifba.ru](https://alifba.ru)
 (see also https://dipech.github.io/#/portfolio/alifba).
-The project itself isn't ideal, it hasn't tests, it wasn't written using TDD. I was creating it in spare time, and
-it isn't a crucial part of the Alifba project.
+The project itself isn't ideal, it hasn't any tests, it wasn't written using TDD. I was creating it in my spare time, 
+and it isn't a crucial part of the Alifba project.
 
 > This is a copy of the original repository made 10th May 2020 to show how to build a production-ready 
 > console application using Spring Boot. 
@@ -19,15 +19,15 @@ make API calls to fetch the data we needed.
 
 ## 3. Why separate app you might ask?
 
-Out production server is not so powerful as it might be. Moreover, I don't want to change anything only for one supplier.
-PHP isn't a good solution for this kind of tasks as well.
+Our production server is not so powerful as it might be. Moreover, I don't want to change anything only for one supplier.
+PHP isn't a good solution for this kind of task as well.
 
 There're some difficulties:
 - API provides lots of paginated XMLs.
 - There's no Catalogue entity at all but lots of strange entities like Niches, Segments and Subjects do the same things.
 - There're lots of "broken" products with confusing data (linked to unknown manufacturers, etc).
-- We need only specific manufacturers products and only from specific sections.
-- The total size of data (hundreds of files) is about 3 GB, but in fact, my script reduces it into one single file 50mb. 
+- We need only specific manufacturers' products and only from specific sections.
+- The total size of data (hundreds of files) is about 3 GB, but in fact, my script reduces it into one single file 50 MB. 
 - Lots more troubles...
 
 ## 4. How it works
