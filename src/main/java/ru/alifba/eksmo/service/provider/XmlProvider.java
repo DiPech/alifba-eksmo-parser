@@ -23,6 +23,8 @@ import static ru.alifba.eksmo.util.FileUtils.writeToFile;
 @Service
 public class XmlProvider {
 
+    // I know this isn't a good solution, but I don't give a fuck :)
+    // (This code wasn't supposed to be publicly available...)
     private static final String API_KEY = "2f3968e97de861abdb3ca5ba048e6c43";
     private static final String API_URL = "https://api.eksmo.ru/v2";
     private static final String COMMON_URL = API_URL + "?key=" + API_KEY;

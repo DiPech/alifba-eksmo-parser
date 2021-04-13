@@ -1,38 +1,44 @@
 # Alifba Eksmo Parser
 
-## 1. Предисловие
+## 1. Foreword
 
-Это один из внутренних проектов, реализованных в рамках работы над интернет-магазином [alifba.ru](https://alifba.ru). Он не доведён до идеала (например, не используется Unit тестирование, не писал с использованием TDD методологии), т.к. разрабатывал в свободное время, но достаточно стабилен для использования на production, и это приемлемо для заказчика и его бизнес-требований.
+This is one of internal projects which has been made during working on online store [alifba.ru](https://alifba.ru)
+(see also https://dipech.github.io/#/portfolio/alifba).
+The project itself isn't ideal, it hasn't tests, it wasn't written using TDD. I was creating it in spare time, and
+it isn't a crucial part of the Alifba project.
 
-Note: Это копия репозитория на момент 10 мая 2020, с целью выложить в качестве примера production-ready проекта с использованием Spring Boot для реализации консольного приложения.
+> This is a copy of the original repository made 10th May 2020 to show how to build a production-ready 
+> console application using Spring Boot. 
 
-## 2. Описание проекта
+## 2. Project description
 
-Изначально, в интернет-магазине [alifba.ru](https://alifba.ru) был реализован гибкий и мощный механизм импортирования разделов, товаров и их характеристик из YML (Yandex XML) файлов.
-Все поставщики товаров для нашего интернет-магазина, так или иначе в итоге предоставили YML выгрузки, кроме одного поставщика - Eksmo. И так уже получилось, что по степени важности он был на первом месте.
-Соответственно, было принято решение написать инструмент, который позволил бы сделать необходимое.
+I've created a very flexible and robust importing tool inside Alifba admin panel. This tool allows you to import 
+products and their characteristics from YML files in a very easy manner.
+All the products suppliers gave us YML files except one – Eksmo. But they provided us their products API. So we could
+make API calls to fetch the data we needed. 
 
-## 3. Почему данное приложение реализовано как консольное Spring приложение, а не часть модуля импорта интернет-магазина
+## 3. Why separate app you might ask?
 
-Для того, чтобы импортировать данного поставщика, предполагается использовать его API. 
+Out production server is not so powerful as it might be. Moreover, I don't want to change anything only for one supplier.
+PHP isn't a good solution for this kind of tasks as well.
 
-Предоставленное API поставщика сделано, скажем так, мягко говоря не лучшим образом:
-- API возвращает целый набор XML-ок, до кучи разбитых на части пагинацией.
-- Нет привычной сущности "Каталог" (зато есть куча отдельных сущностей, на которые каталог разбит, и эти сущности друг с другом связаны).
-- API часто возвращает товары с битыми или неправильными данными (например, указан ID поставщика, которого нет в их же базе).
-- Суммарный размер всех файлов, полученных по API, для production базы более 3 ГБ.
-- Причем из них нам нужны были только определенные поставщики и определенные товары по определенным критериям.
-- И еще много-много костылей и проблем.
+There're some difficulties:
+- API provides lots of paginated XMLs.
+- There's no Catalogue entity at all but lots of strange entities like Niches, Segments and Subjects do the same things.
+- There're lots of "broken" products with confusing data (linked to unknown manufacturers, etc).
+- We need only specific manufacturers products and only from specific sections.
+- The total size of data (hundreds of files) is about 3 GB, but in fact, my script reduces it into one single file 50mb. 
+- Lots more troubles...
 
-Зная, как PHP имеет свойство "замедляться" в случае долгоиграющих скриптов и особенно при обработке большого объёма данных, было решено реализовать эту логику на более подходящем инструменте.
+## 4. How it works
 
-## 4. Как работает проект
+It works the following way:
+- Download all the data using eksmo's API.
+- Parse downloaded data, preprocess and filter items.
+- Convert the data into one final YML file which can be imported in Alifba website.
 
-В два (или три) этапа:
-- Выгрузка всех данных из API.
-- Построение статистики для анализа (Опционально).
-- Конвертирование всех выгруженных данных в итоговый YML файл, пригодный для импортирования на сайт.
+> There's also a possibility to build and check some statistics.
 
-## 5. Как собрать и запустить проект из консоли
+## 5. How to build and launch
 
-См. оригинальный readme файл [readme.dev.md](./readme.dev.md)
+Please take a look at [readme.dev.md](./readme.dev.md)
